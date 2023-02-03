@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, deprecated_member_use
 
 import './widgets/new_transactions.dart';
 import './widgets/transaction_list.dart';
@@ -16,7 +16,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ignore: prefer_const_constructors
-    return MaterialApp(title: "Flutter App", home: MyHomePage());
+    return MaterialApp(
+        title: "Personal Expenses",
+        theme: ThemeData(
+            primarySwatch: Colors.purple,
+            accentColor: Colors.amber,
+            fontFamily: "QuickSand",
+            textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                    fontFamily: "OpenSans",
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18)),
+            appBarTheme: AppBarTheme(
+              titleTextStyle: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            )),
+        home: MyHomePage());
   }
 }
 
@@ -63,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Flutter App"),
+          title: const Text("Personal Expenses"),
           actions: [
             IconButton(
                 onPressed: () => _startAddNewTransaction(context),
@@ -87,9 +105,11 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
           onPressed: () => _startAddNewTransaction(context),
+          elevation: 4,
+          child: Icon(Icons.add),
         ));
   }
 }
