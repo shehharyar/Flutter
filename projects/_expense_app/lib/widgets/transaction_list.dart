@@ -1,12 +1,20 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import '../models/transaction.dart';
 import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
-  TransactionList(this.transactions, {super.key});
+  final Function delete_tx;
+  // ignore: use_key_in_widget_constructors
+  TransactionList(
+    this.transactions,
+    this.delete_tx, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +24,11 @@ class TransactionList extends StatelessWidget {
           ? Column(
               children: [
                 Text(
-                  "No transactions add yet!",
+                  'No transactions added yet!',
                   style: Theme.of(context).textTheme.headline6,
                 ),
+                // Textstyle: Theme.of(context).textTheme.headline6,
+
                 const SizedBox(
                   height: 20,
                 ),
@@ -33,31 +43,31 @@ class TransactionList extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (context, index) {
                 return Card(
-                  child: Row(children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 15.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Theme.of(context).primaryColor, width: 2),
+                  elevation: 6,
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FittedBox(
+                            child: Text('\$${transactions[index].amount}')),
                       ),
-                      padding: EdgeInsets.all(10),
-                      child: Text(
-                          '\$${transactions[index].amount.toStringAsFixed(2)}',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17,
-                              color: Theme.of(context).primaryColor)),
                     ),
-                    Column(
-                      children: [
-                        Text(transactions[index].title,
-                            style: Theme.of(context).textTheme.headline6),
-                        Text(DateFormat.yMMMd()
-                            .format(transactions[index].date)),
-                      ],
-                    )
-                  ]),
+                    title: Text(
+                      '${transactions[index].title}',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    subtitle: Text(
+                        '${DateFormat.yMMMd().format(transactions[index].date)}'),
+                    trailing: IconButton(
+                      icon: Icon(
+                        Icons.delete,
+                        color: Theme.of(context).errorColor,
+                      ),
+                      onPressed: () => delete_tx(transactions[index].id),
+                    ),
+                  ),
                 );
               },
               itemCount: transactions.length,
