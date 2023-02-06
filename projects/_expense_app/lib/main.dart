@@ -3,7 +3,7 @@
 import './widgets/new_transactions.dart';
 import './widgets/transaction_list.dart';
 import './models/transaction.dart';
-
+import './widgets/chart.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -23,10 +23,12 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.amber,
             fontFamily: "QuickSand",
             textTheme: ThemeData.light().textTheme.copyWith(
-                headline6: TextStyle(
-                    fontFamily: "OpenSans",
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18)),
+                  headline6: TextStyle(
+                      fontFamily: "OpenSans",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
+                  button: TextStyle(color: Colors.white),
+                ),
             appBarTheme: AppBarTheme(
               titleTextStyle: TextStyle(
                   fontFamily: 'OpenSans',
@@ -54,14 +56,32 @@ class _MyHomePageState extends State<MyHomePage> {
         id: "t2", title: "Macbook", amount: 90.99, date: DateTime.now()),
     Transaction(id: "t3", title: "Iphone", amount: 99.99, date: DateTime.now()),
   ];
-  void _addNewTransaction(String txTitle, double txAmount) {
+
+  List<Transaction> get _recentTransactions {
+    return _userTransaction.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
+
+  void _addNewTransaction(
+      String txTitle, double txAmount, DateTime chosenDate) {
     final newTx = Transaction(
         id: DateTime.now().toString(),
         title: txTitle,
         amount: txAmount,
-        date: DateTime.now());
+        date: chosenDate);
     setState(() {
       _userTransaction.add(newTx);
+    });
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransaction.removeWhere((tx) => tx.id == id);
     });
   }
 
@@ -96,12 +116,9 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               Container(
                 width: double.infinity,
-                child: Card(
-                  color: Colors.blueAccent,
-                  child: Text("CHART"),
-                ),
+                child: Chart(_recentTransactions),
               ),
-              TransactionList(_userTransaction),
+              TransactionList(_userTransaction, _deleteTransaction),
             ],
           ),
         ),
