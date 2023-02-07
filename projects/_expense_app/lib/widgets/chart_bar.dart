@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChartBar extends StatelessWidget {
@@ -13,7 +13,6 @@ class ChartBar extends StatelessWidget {
     return Column(
       children: [
         Container(
-            height: 20,
             child: FittedBox(
                 child: Text('\$${spendingAmount.toStringAsFixed(0)}'))),
         const SizedBox(
@@ -39,7 +38,7 @@ class ChartBar extends StatelessWidget {
             )
           ]),
         ),
-        SizedBox(
+        const SizedBox(
           height: 4,
         ),
         Text(label)
