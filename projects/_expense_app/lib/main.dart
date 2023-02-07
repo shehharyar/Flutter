@@ -16,6 +16,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ignore: prefer_const_constructors
+    // final curScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return MaterialApp(
         title: "Personal Expenses",
         theme: ThemeData(
@@ -99,15 +101,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final appBar = AppBar(
+      title: Text("Personal Expenses"),
+      actions: [
+        IconButton(
+            onPressed: () => _startAddNewTransaction(context),
+            icon: Icon(Icons.add))
+      ],
+    );
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Personal Expenses"),
-          actions: [
-            IconButton(
-                onPressed: () => _startAddNewTransaction(context),
-                icon: Icon(Icons.add))
-          ],
-        ),
+        appBar: appBar,
         // ignore: prefer_const_constructors
         body: SingleChildScrollView(
           child: Column(
@@ -115,10 +118,19 @@ class _MyHomePageState extends State<MyHomePage> {
             // mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.4,
                 width: double.infinity,
                 child: Chart(_recentTransactions),
               ),
-              TransactionList(_userTransaction, _deleteTransaction),
+              Container(
+                  height: (MediaQuery.of(context).size.height -
+                          appBar.preferredSize.height -
+                          MediaQuery.of(context).padding.top) *
+                      0.6,
+                  child: TransactionList(_userTransaction, _deleteTransaction)),
             ],
           ),
         ),
