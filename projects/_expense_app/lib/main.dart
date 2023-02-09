@@ -1,5 +1,8 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
 
+import 'package:flutter/services.dart';
+import 'package:flutter/services.dart';
+
 import './widgets/new_transactions.dart';
 import './widgets/transaction_list.dart';
 import './models/transaction.dart';
@@ -7,6 +10,12 @@ import './widgets/chart.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const MyApp());
 }
 
@@ -51,14 +60,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   // late String titleInput;
-  final List<Transaction> _userTransaction = [
-    Transaction(
-        id: "t1", title: "New Shoes", amount: 60.99, date: DateTime.now()),
-    Transaction(
-        id: "t2", title: "Macbook", amount: 90.99, date: DateTime.now()),
-    Transaction(id: "t3", title: "Iphone", amount: 99.99, date: DateTime.now()),
-  ];
+  final List<Transaction> _userTransaction = [];
 
+  bool _showChart = false;
   List<Transaction> get _recentTransactions {
     return _userTransaction.where((tx) {
       return tx.date.isAfter(
@@ -109,6 +113,14 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.add))
       ],
     );
+    final isLandScape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    final txListWidget = Container(
+        height: (MediaQuery.of(context).size.height -
+                appBar.preferredSize.height -
+                MediaQuery.of(context).padding.top) *
+            0.7,
+        child: TransactionList(_userTransaction, _deleteTransaction));
     return Scaffold(
         appBar: appBar,
         // ignore: prefer_const_constructors
@@ -117,20 +129,41 @@ class _MyHomePageState extends State<MyHomePage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             // mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Container(
-                height: (MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.4,
-                width: double.infinity,
-                child: Chart(_recentTransactions),
-              ),
-              Container(
+              if (isLandScape)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Show Chart"),
+                    Switch(
+                        value: _showChart,
+                        onChanged: (val) {
+                          setState(() {
+                            _showChart = val;
+                          });
+                        }),
+                  ],
+                ),
+              if (!isLandScape)
+                Container(
                   height: (MediaQuery.of(context).size.height -
                           appBar.preferredSize.height -
                           MediaQuery.of(context).padding.top) *
-                      0.6,
-                  child: TransactionList(_userTransaction, _deleteTransaction)),
+                      0.3,
+                  width: double.infinity,
+                  child: Chart(_recentTransactions),
+                ),
+              if (!isLandScape) txListWidget,
+              if (isLandScape)
+                _showChart
+                    ? Container(
+                        height: (MediaQuery.of(context).size.height -
+                                appBar.preferredSize.height -
+                                MediaQuery.of(context).padding.top) *
+                            0.7,
+                        width: double.infinity,
+                        child: Chart(_recentTransactions),
+                      )
+                    : txListWidget,
             ],
           ),
         ),
