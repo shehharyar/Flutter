@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import './category_meals_screen.dart';
-import "./category_Screen.dart";
+import './Screens/category_meals_screen.dart';
+import './Screens/category_Screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,8 +27,10 @@ class MyApp extends StatelessWidget {
                   fontSize: 20,
                   fontFamily: "RobotoCondensed",
                   fontWeight: FontWeight.bold))),
-      home: const Categories_Screen(),
+      // home: const Categories_Screen(),
+      initialRoute: "/",
       routes: {
+        '/': (ctx) => Categories_Screen(),
         CategoryMealsScreen.routeName: (ctx) => CategoryMealsScreen(),
       },
     );

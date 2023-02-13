@@ -1,6 +1,8 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
-import './dummy_data.dart';
-import './category_item.dart';
+import '../dummy_data.dart';
+import '../widgets/category_item.dart';
 
 class Categories_Screen extends StatelessWidget {
   const Categories_Screen({super.key});
