@@ -6,10 +6,6 @@ class CategoryMealsScreen extends StatelessWidget {
   static const routeName = '/category-meals';
   const CategoryMealsScreen({super.key});
 
-  // final String categoryId;
-  // final String categoryTitle;
-  // const CategoryMealsScreen(this.categoryId, this.categoryTitle, {super.key});
-
   @override
   Widget build(BuildContext context) {
     final routeArgs =
