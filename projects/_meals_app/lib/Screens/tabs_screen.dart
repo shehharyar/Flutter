@@ -37,13 +37,13 @@ class _TabsScreenState extends State<TabsScreen> {
       appBar: AppBar(
         title: Text(_pages[_selectedPageIndex]['title'] as String),
       ),
-      drawer: MainDrawer(),
+      drawer: const MainDrawer(),
       body: _pages[_selectedPageIndex]['page'] as Widget,
       // ignore: prefer_const_literals_to_create_immutables
       bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           unselectedItemColor: Colors.white,
-          selectedItemColor: Theme.of(context).secondaryHeaderColor,
+          selectedItemColor: Theme.of(context).colorScheme.secondary,
           currentIndex: _selectedPageIndex,
           // type: BottomNavigationBarType.shifting,
           onTap: _selectPage,

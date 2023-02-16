@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key});
-  Widget buildWidgetListTile(String title, IconData icon, Function tabHandler) {
+  Widget buildWidgetListTile(String title, IconData icon, dynamic tabHandler) {
     return ListTile(
       leading: Icon(
         icon,
@@ -16,7 +16,7 @@ class MainDrawer extends StatelessWidget {
             fontSize: 24,
             fontWeight: FontWeight.bold),
       ),
-      onTap: tabHandler(),
+      onTap: tabHandler,
     );
   }
 
@@ -43,10 +43,10 @@ class MainDrawer extends StatelessWidget {
             height: 20,
           ),
           buildWidgetListTile("Meals", Icons.restaurant, () {
-            Navigator.of(context).pushNamed('/');
+            Navigator.of(context).pushReplacementNamed('/');
           }),
           buildWidgetListTile("Filters", Icons.settings, () {
-            Navigator.of(context).pushNamed(FiltersScreen.routeName);
+            Navigator.of(context).pushReplacementNamed(FiltersScreen.routeName);
           }),
         ],
       ),
