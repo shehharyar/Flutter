@@ -1,16 +1,19 @@
-import '../models/Product.dart';
-import 'package:flutter/material.dart';
+import 'Product.dart';
+import 'package:flutter/foundation.dart';
 
 class Products with ChangeNotifier {
   final List<Product> _items = [
     Product(
-      id: 'p1',
-      title: 'Red Shirt',
-      description: 'A red shirt - it is pretty red!',
-      price: 29.99,
-      imageUrl:
-          'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg',
-    ),
+        id: 'p1',
+        title: 'Red Shirt',
+        description: 'A red shirt - it is pretty red!',
+        price: 29.99,
+        imageUrl:
+            "https://w7.pngwing.com/pngs/140/752/png-transparent-blue-crew-neck-t-shirt-art-t-shirt-navy-blue-polo-shirt-shirt-tshirt-blue-angle-thumbnail.png"
+        // 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Trousers%2C_dress_%28AM_1960.022-8%29.jpg/512px-Trousers%2C_dress_%28AM_1960.022-8%29.jpg',
+        // 'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280',
+        // "https://clipartpng.com/?3105,red-t-shirt-png-clip-art"
+        ),
     Product(
       id: 'p2',
       title: 'Trousers',
