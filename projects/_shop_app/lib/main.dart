@@ -2,7 +2,7 @@ import './screens/product_details_screen.dart';
 
 import './screens/product_overview.dart';
 import 'package:flutter/material.dart';
-import 'providers/products.dart';
+import './providers/products.dart';
 import 'package:provider/provider.dart';
 
 void main() {

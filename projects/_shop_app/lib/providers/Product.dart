@@ -1,12 +1,14 @@
 // ignore_for_file: file_names
 
-class Product {
+import 'package:flutter/foundation.dart';
+
+class Product with ChangeNotifier {
   final String id;
   final String title;
   final String description;
   final double price;
   final String imageUrl;
-  final bool isFavourite;
+  bool isFavourite;
 
   Product(
       {required this.id,
@@ -15,4 +17,9 @@ class Product {
       required this.price,
       required this.imageUrl,
       this.isFavourite = false});
+
+  void toggleFavouriteStatus() {
+    isFavourite = !isFavourite;
+    notifyListeners(); // same as setState(){}
+  }
 }
