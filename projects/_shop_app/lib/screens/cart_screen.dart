@@ -32,8 +32,8 @@ class CartScreen extends StatelessWidget {
                       const Spacer(),
                       Chip(
                         label: Text(
-                          '\$${cart.totalAmount}',
-                          style: TextStyle(color: Colors.white60),
+                          '\$${cart.totalAmount.toStringAsFixed(2)}',
+                          style: const TextStyle(color: Colors.white60),
                         ),
                         backgroundColor: Theme.of(context).primaryColor,
                       ),
