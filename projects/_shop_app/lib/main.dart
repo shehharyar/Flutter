@@ -8,6 +8,7 @@ import './screens/product_overview.dart';
 import 'package:flutter/material.dart';
 import './providers/products.dart';
 import './providers/orders.dart';
+import './screens/user_products_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -34,15 +35,19 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
             primarySwatch: Colors.purple,
-            colorScheme: ColorScheme.fromSwatch()
-                .copyWith(primary: Colors.purple, secondary: Colors.deepOrange),
+            colorScheme: ColorScheme.fromSwatch().copyWith(
+              primary: Colors.purple,
+              secondary: Colors.deepOrange,
+            ),
             fontFamily: "Lato"),
+        darkTheme: ThemeData.dark(),
         home: ProductOverviewScreen(),
         debugShowCheckedModeBanner: false,
         routes: {
           ProductDetailScreen.routeName: (ctx) => const ProductDetailScreen(),
           CartScreen.routeName: (ctx) => const CartScreen(),
-          OrdersScreen.rouTeName: (ctx) => const OrdersScreen()
+          OrdersScreen.rouTeName: (ctx) => const OrdersScreen(),
+          UserProductsScreen.routeName: (ctx) => const UserProductsScreen()
         },
       ),
     );
