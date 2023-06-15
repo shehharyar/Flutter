@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
             ),
             fontFamily: "Lato"),
         darkTheme: ThemeData.dark(),
-        home: ProductOverviewScreen(),
+        home: const ProductOverviewScreen(),
         debugShowCheckedModeBanner: false,
         routes: {
           ProductDetailScreen.routeName: (ctx) => const ProductDetailScreen(),

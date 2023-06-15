@@ -57,13 +57,13 @@ class CartItem extends StatelessWidget {
           cart.removeItem(productId);
         },
         child: Card(
-          margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
           child: Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: ListTile(
               leading: CircleAvatar(
                 child: Padding(
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   child: FittedBox(child: Text('\$$price')),
                 ),
               ),

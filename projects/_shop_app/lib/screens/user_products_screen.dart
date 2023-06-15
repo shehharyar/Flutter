@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import '../providers/products.dart';
 import '../widgets/user_product_item.dart';
 import "../widgets/app_drawer.dart";
-import './orders_screen.dart';
 import './edit_product_screen.dart';
 
 class UserProductsScreen extends StatelessWidget {
@@ -33,6 +32,7 @@ class UserProductsScreen extends StatelessWidget {
           itemBuilder: (_, i) => Column(
             children: [
               UserProductItem(
+                 productData.items[i].id,
                   productData.items[i].title, productData.items[i].imageUrl),
               const Divider(),
             ],
