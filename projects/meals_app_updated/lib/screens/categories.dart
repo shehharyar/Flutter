@@ -19,11 +19,7 @@ final filteredCMeals= dummyMeals.where((meal) => meal.categories.contains(catego
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Pick your category'),
-      ),
-      body: GridView(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    return GridView(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 3 / 2,
         crossAxisSpacing: 20,
@@ -34,7 +30,7 @@ final filteredCMeals= dummyMeals.where((meal) => meal.categories.contains(catego
               CategoryGridItem(category: category, onSelectCategory: () {_selectCategory(context, category);},)
         ],
         
-        ),
-      );
+        );
+     
   }
 }
