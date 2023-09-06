@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app_updated/models/meal.dart';
 import 'package:meals_app_updated/screens/categories.dart';
+import 'package:meals_app_updated/screens/filters.dart';
 import 'package:meals_app_updated/screens/meals.dart';
 import 'package:meals_app_updated/widgets/main_drawer.dart';
 
@@ -40,12 +41,11 @@ void _toggleMealFavoriteStatus(Meal meal){
 }
 
 void _setScreen(String identifier){
+  Navigator.of(context).pop();
   if(identifier == "filters"){
-
+    Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => const FiltersScreen()));
   }
-  else{
-    Navigator.of(context).pop();
-  }
+  
 }
 
 void _selectPage(int index){
