@@ -39,6 +39,15 @@ void _toggleMealFavoriteStatus(Meal meal){
   }
 }
 
+void _setScreen(String identifier){
+  if(identifier == "filters"){
+
+  }
+  else{
+    Navigator.of(context).pop();
+  }
+}
+
 void _selectPage(int index){
   setState(() {
      
@@ -59,7 +68,7 @@ void _selectPage(int index){
 
     return Scaffold(
       appBar: AppBar(title: Text(activePageTitle),),
-      drawer: const MainDrawer(),
+      drawer: MainDrawer(onSelectScreen: _setScreen,),
       body: _activePage,
       bottomNavigationBar:  BottomNavigationBar(
         onTap: _selectPage,
