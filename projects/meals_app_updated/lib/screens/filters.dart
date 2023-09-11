@@ -11,8 +11,13 @@ enum Filter{
 }
 
 class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({super.key});
+  const FiltersScreen({
+    super.key,
+    required this.currentFilters
+  });
 
+ final Map<Filter, bool> currentFilters;
+  
   @override
   State<FiltersScreen> createState() => _FiltersScreenState();
 }
@@ -23,16 +28,26 @@ class _FiltersScreenState extends State<FiltersScreen> {
   var _vegetarianFilterSet =false;
   var _veganFilterSet =false;
   
+
+@override
+  void initState() {
+    super.initState();
+    _glutenFreeFilterSet= widget.currentFilters[Filter.glutenFree]!;
+    _lactoseFreeFilterSet= widget.currentFilters[Filter.lactoseFree]!;
+    _vegetarianFilterSet= widget.currentFilters[Filter.vegetarian]!;
+    _veganFilterSet= widget.currentFilters[Filter.vegan]!;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Your Filters")),
-      drawer: MainDrawer(onSelectScreen: (identifier) {
-        Navigator.of(context).pop();
-        if ( identifier == "meals"){
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => const TabsScreen()));
-        }
-      }),
+      // drawer: MainDrawer(onSelectScreen: (identifier) {
+      //   Navigator.of(context).pop();
+      //   if ( identifier == "meals"){
+      //     Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => const TabsScreen()));
+      //   }
+      // }),
       body: WillPopScope(
         onWillPop: () async{
           Navigator.of(context).pop({
