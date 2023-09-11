@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:meals_app_updated/data/dummy_data.dart';
 import 'package:meals_app_updated/models/meal.dart';
+import 'package:meals_app_updated/providers/favorites_provider.dart';
 import 'package:meals_app_updated/providers/meals_provider.dart';
 import 'package:meals_app_updated/screens/categories.dart';
 import 'package:meals_app_updated/screens/filters.dart';
@@ -95,14 +96,17 @@ void _selectPage(int index){
     
     
     Widget activePage = CategoriesScreen(
-      onToggleFavorite: _toggleMealFavoriteStatus,
+      // onToggleFavorite: _toggleMealFavoriteStatus,
       availableMeals: availableMeals,
       );
     var activePageTitle = "Categories";
+    
     if(_selectedPageIndex == 1){
+      final favoriteMeals= ref.watch(favoriteMealsProvider);
       activePage=  MealsScreen(
-        meals: _favoriteMeals,
-        onToggleFavorite: _toggleMealFavoriteStatus,);
+        meals: favoriteMeals,
+        // onToggleFavorite: _toggleMealFavoriteStatus,);
+      );
       activePageTitle= 'Your Favorites';
     }
 
