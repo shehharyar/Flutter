@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-
+// import 'package:play_ground/screens/authSignUp.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:play_ground/screens/Catalog.dart';
+import 'package:play_ground/screens/new_catalog.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -12,7 +15,16 @@ class MyApp extends StatelessWidget {
     // ignore: prefer_const_constructors
     return MaterialApp(
       title: "Playground App",
-      home: const MyHomePage(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          brightness: Brightness.dark,
+          seedColor: const Color.fromARGB(255, 69, 129, 199),
+          )
+          ,
+          textTheme: GoogleFonts.latoTextTheme(),
+        useMaterial3: true,
+      ),
+      home: const CatalogScreen(),
     );
   }
 }
@@ -24,10 +36,10 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Playground App"),
+          title: const Text("Playground App"),
         ),
-        body: Container(
-          child: Row(),
-        ));
+        body: const NewCatalogScreen(),
+        // body: const Signup(),
+        );
   }
 }
