@@ -5,7 +5,7 @@ import 'package:meals_app_updated/widgets/category_grid_item.dart';
 import 'package:meals_app_updated/models/category.dart';
 import 'package:meals_app_updated/models/meal.dart';
 
-class CategoriesScreen extends StatelessWidget {
+class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({
     super.key, 
     // required this.onToggleFavorite,
@@ -15,10 +15,33 @@ class CategoriesScreen extends StatelessWidget {
   // final void Function(Meal meal) onToggleFavorite;
   final List<Meal> availableMeals;
 
+  @override
+  State<CategoriesScreen> createState() => _CategoriesScreenState();
+}
 
-  
+class _CategoriesScreenState extends State<CategoriesScreen> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+  _animationController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 500),
+    lowerBound: 0,
+    upperBound: 1,
+    );
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   void _selectCategory(BuildContext context, Category category){
-final filteredCMeals= availableMeals.where((meal) => meal.categories.contains(category.id)).toList();
+final filteredCMeals= widget.availableMeals.where((meal) => meal.categories.contains(category.id)).toList();
     Navigator.of(context).push(MaterialPageRoute(
       builder: (ctx) => MealsScreen(
         title: category.title, 
@@ -27,11 +50,12 @@ final filteredCMeals= availableMeals.where((meal) => meal.categories.contains(ca
       )));
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    return GridView(gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    return AnimatedBuilder(animation: _animationController, 
+    child:GridView(
+      padding: EdgeInsets.all(24),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 3 / 2,
         crossAxisSpacing: 20,
@@ -42,7 +66,15 @@ final filteredCMeals= availableMeals.where((meal) => meal.categories.contains(ca
               CategoryGridItem(category: category, onSelectCategory: () {_selectCategory(context, category);},)
         ],
         
-        );
+        ) ,
+    builder: (context, child) =>
+      Padding( 
+      padding: EdgeInsets.only(
+        top: 100 - _animationController.value * 100,
+      ),
+      child: child,
+      )
+    );  
      
   }
 }
