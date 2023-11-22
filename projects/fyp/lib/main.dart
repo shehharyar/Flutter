@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:fyp/screens/auth.dart';
-import 'package:fyp/screens/business-reg.dart';
+import 'package:fyp/screens/auth/auth.dart';
 import 'package:fyp/screens/loading.dart';
+import 'package:fyp/screens/shop/create-shop.dart';
 
 import 'firebase_options.dart';
 void main() async {  
@@ -24,10 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        inputDecorationTheme: InputDecorationTheme(
-          fillColor: Colors.purple[50],
-          filled: true
-        ) ,
+      
         useMaterial3: true,
         
       ),
@@ -36,7 +33,7 @@ class MyApp extends StatelessWidget {
           return const LoadingScreen();
         }
         if(snapshot.hasData){
-          return const BusinessRegistrationScreen();
+          return const CreateShopScreen();
         }
         return const AuthScreen();
       })

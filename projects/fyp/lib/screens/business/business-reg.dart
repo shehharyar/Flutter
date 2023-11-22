@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/data/business.dart';
-import 'package:fyp/screens/NewShop.dart';
+import 'package:fyp/screens/shop/shops.dart';
 
 
 FirebaseDatabase database = FirebaseDatabase.instance;
@@ -29,17 +29,13 @@ class _BusinessRegistrationScreenState extends State<BusinessRegistrationScreen>
     try{
         final user= FirebaseAuth.instance.currentUser;
         DatabaseReference ref= database.ref('businesses');
-        await ref.set({
+       final data= await ref.set({
             'name': _enteredBusinessName,
             'category': _selectedBusiness,
             'owner': user!.uid
-        }).then((value) => 
-        Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => const NewShopScreen() ))
-        ).catchError((error)=>{
-          
         });
-
-
+       
+         Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => const ShopScreen()));
     } on FirebaseException catch(error){
         
       ScaffoldMessenger.of(context).clearSnackBars();
@@ -58,7 +54,7 @@ class _BusinessRegistrationScreenState extends State<BusinessRegistrationScreen>
   Widget build(BuildContext context) {
     return Scaffold(
      backgroundColor: Colors.purple[700] ,
-      
+      appBar: AppBar(backgroundColor: Colors.transparent),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -111,7 +107,7 @@ class _BusinessRegistrationScreenState extends State<BusinessRegistrationScreen>
                           child: TextFormField(
                             decoration: InputDecoration(
                               border: OutlineInputBorder(borderRadius: BorderRadius.circular(9.0)),
-                              label: const Text("Email"),
+                              label: const Text("Name Of Business"),
                               filled: true,
                               fillColor: const Color.fromARGB(255, 236, 220, 162),
                               focusColor: Colors.blueGrey
@@ -168,7 +164,9 @@ class _BusinessRegistrationScreenState extends State<BusinessRegistrationScreen>
                         backgroundColor: Color.fromARGB(255, 142, 102, 153),
                         foregroundColor: Colors.amberAccent
                       ),
-                      onPressed:(){} //_submit, 
+                      onPressed:(){
+                          _register();
+                      } //_submit, 
                       ,child: Text('Register')
                       ),
                       const SizedBox(height: 20,),
