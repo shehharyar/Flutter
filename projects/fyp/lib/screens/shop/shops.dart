@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:fyp/screens/business/business-reg.dart';
+import 'package:fyp/screens/products/ShopHome.dart';
+import 'package:fyp/screens/products/products-overview.dart';
 
-class ShopScreen extends StatelessWidget {
-  const ShopScreen({super.key});
+class ShopScreen extends StatefulWidget {
+  const ShopScreen({super.key, required this.id});
+  final String id;
 
+  @override
+  State<ShopScreen> createState() => _ShopScreenState();
+}
+
+class _ShopScreenState extends State<ShopScreen> {
+    int _selectedPageIndex =0;
+
+ void _selectPage(int index) {
+    setState(() {
+      _selectedPageIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,39 +27,27 @@ class ShopScreen extends StatelessWidget {
           "Ecom. Tech",
           "ockApi"
     ]; 
+        Widget activePage = const ShopHomeScreen();
+    // var activePageTitle = 'Categories';
+
+    if (_selectedPageIndex == 1) {
+      activePage = const ProductsOverviewScreen();
+    }
+    if (_selectedPageIndex == 2) {
+      activePage = const ProductsOverviewScreen();
+    }
+
+    
+    
     return Scaffold(
       appBar: AppBar(
-       
+       backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+       foregroundColor: Theme.of(context).colorScheme.background,
         title: const Center(child:  Text("Your Shops")),
       ),
-      body:Container(
-        width: double.infinity,
-                height: double.infinity,
-                decoration:const BoxDecoration(
-                  color: Color.fromARGB(255, 243, 240, 240)
-                ),
-                child: ListView.builder(
-                  itemCount: shops.length,
-                  itemBuilder: (context, index){
-                 
-                  return  Container(
-                    
-                    margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                    padding: const EdgeInsets.all(12), 
-                    decoration: BoxDecoration(border: Border.all(
-                      color: Colors.blueGrey
-
-                    )), 
-                 child: ListTile(
-                    title: Text(shops[index]),
-                    // style: ListTileStyle.list,
-                  ),
-                  );
-                } ) ,
-         
-      ),
+      body: activePage,
       floatingActionButton: FloatingActionButton.small(
-        backgroundColor: Colors.limeAccent,
+        backgroundColor: Theme.of(context).colorScheme.background,
         onPressed: (){
             Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => const BusinessRegistrationScreen()));
            },
@@ -52,11 +55,15 @@ class ShopScreen extends StatelessWidget {
       ),
       
       bottomNavigationBar:  BottomNavigationBar(
+        backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+        unselectedItemColor: Theme.of(context).colorScheme.tertiary,
+        onTap: _selectPage,
+        currentIndex: _selectedPageIndex,
         selectedItemColor: Colors.amberAccent,
-        items:  [
+        items: const  [
         BottomNavigationBarItem(icon: Icon(Icons.add), label: "Home"),
-        BottomNavigationBarItem(icon: Icon(Icons.add), label: "Home" ),
-        BottomNavigationBarItem(icon: Icon(Icons.add), label: "Home")
+        BottomNavigationBarItem(icon: Icon(Icons.local_grocery_store), label: "Products" ),
+        BottomNavigationBarItem(icon: Icon(Icons.add), label: "Payments")
 
       ]),
     );

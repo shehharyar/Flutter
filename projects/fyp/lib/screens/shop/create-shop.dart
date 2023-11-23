@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/screens/shop/shops.dart';
 class CreateShopScreen extends StatelessWidget {
   const CreateShopScreen({super.key});
 
@@ -8,26 +9,31 @@ class CreateShopScreen extends StatelessWidget {
     
     final List<Map<String, dynamic>> shops=[
       {
+        "id": "s1",
+        "name": "Grocery",
+        "Incentives" : "12.00",
+        "image": "https://images.pexels.com/photos/128402/pexels-photo-128402.jpeg"
+      },
+      {  
+        "id": "s2",
         "name": "Grocery",
         "Incentives" : "12.00",
         "image": "https://images.pexels.com/photos/128402/pexels-photo-128402.jpeg"
       },
       {
+          "id": "s3",
         "name": "Grocery",
         "Incentives" : "12.00",
         "image": "https://images.pexels.com/photos/128402/pexels-photo-128402.jpeg"
       },
       {
+          "id": "s4",
         "name": "Grocery",
         "Incentives" : "12.00",
         "image": "https://images.pexels.com/photos/128402/pexels-photo-128402.jpeg"
       },
       {
-        "name": "Grocery",
-        "Incentives" : "12.00",
-        "image": "https://images.pexels.com/photos/128402/pexels-photo-128402.jpeg"
-      },
-      {
+          "id": "s5",
         "name": "Grocery",
         "Incentives" : "12.00",
         "image": "https://images.pexels.com/photos/128402/pexels-photo-128402.jpeg"
@@ -50,10 +56,15 @@ class CreateShopScreen extends StatelessWidget {
               
               color: Theme.of(context).colorScheme.primaryContainer,
               child: ListTile(
-        
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder:(ctx) =>
+                    ShopScreen(  id: shops[i]['id'],)
+                  ));
+                } ,
                 leading:
                 CircleAvatar(
-                  radius: 12.8,
+                  radius: 20.7,
                   child: Image.network(shops[i]['image']),
                 ),
                  title: Text(shops[i]['name']),

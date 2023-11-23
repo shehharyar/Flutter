@@ -35,7 +35,8 @@ class _BusinessRegistrationScreenState extends State<BusinessRegistrationScreen>
             'owner': user!.uid
         });
        
-         Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => const ShopScreen()));
+         // ignore: use_build_context_synchronously
+         Navigator.of(context).push(MaterialPageRoute(builder: (ctx) =>  ShopScreen(id: "S1")));
     } on FirebaseException catch(error){
         
       ScaffoldMessenger.of(context).clearSnackBars();
