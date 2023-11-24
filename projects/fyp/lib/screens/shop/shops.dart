@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fyp/screens/business/business-reg.dart';
 import 'package:fyp/screens/products/ShopHome.dart';
 import 'package:fyp/screens/products/products-overview.dart';
 
@@ -46,13 +45,13 @@ class _ShopScreenState extends State<ShopScreen> {
         title: const Center(child:  Text("Your Shops")),
       ),
       body: activePage,
-      floatingActionButton: FloatingActionButton.small(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => const BusinessRegistrationScreen()));
-           },
-      child: const Icon(Icons.add_shopping_cart_sharp),
-      ),
+      // floatingActionButton: FloatingActionButton.small(
+      //   backgroundColor: Theme.of(context).colorScheme.background,
+      //   onPressed: (){
+      //       Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => const BusinessRegistrationScreen()));
+      //      },
+      // child: const Icon(Icons.add_shopping_cart_sharp),
+      // ),
       
       bottomNavigationBar:  BottomNavigationBar(
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
