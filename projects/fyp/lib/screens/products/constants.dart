@@ -1,0 +1,15 @@
+    final List<Map<String, dynamic>> _products =[
+        {"pid" : "p1" ,"pname" : "Deserts", 
+        "Price" : 90, "Quantity": 50, 
+        "imageUrl": "https://cdn.pixabay.com/photo/2017/02/17/23/23/strawberry-dessert-2076155_1280.jpg"},
+        {"pid" : "p2" ,"pname" : "Ice Cake",
+         "Price" : 90, 
+         "Quantity": 10,
+         "imageUrl": "https://media.istockphoto.com/id/1194629015/photo/ice-cream-cake-with-chocolate-and-strawberries-on-plate-close-up-selective-focus.jpg?s=1024x1024&w=is&k=20&c=d5JSzRbgPjRu5Tb6h2yW7L1ZTncVHUgRZmP5oZW6iK8="},
+        {"pid" : "p3" ,"pname" : "Ice Cake", "Price" : 90, 
+        "Quantity": 24,
+        "imageUrl": "https://cdn.pixabay.com/photo/2017/06/17/19/16/ice-cream-2413248_640.jpg"},
+        {"pid" : "p4" ,"pname" : "Ice Cake", "Price" : 90,
+        "Quantity": 20,
+         "imageUrl": "https://images.unsplash.com/photo-1570476922354-81227cdbb76c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8c3dlZXRzfGVufDB8fDB8fHww"},
+      ];

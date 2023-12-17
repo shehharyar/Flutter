@@ -30,6 +30,7 @@ class _AuthScreenState extends State<AuthScreen> {
       return;
     }
 
+
     _form.currentState!.save();
 try{
   if(_isLogin){
@@ -98,9 +99,6 @@ try{
            child: Center(
               child: Form(
                   key: _form,
-                  child: SizedBox(
-                  width: double.infinity,
-                  height: 460,
                   child: ListView(
                     shrinkWrap: true,
                       padding: const EdgeInsets.all(30) ,
@@ -120,14 +118,21 @@ try{
                             padding: const EdgeInsets.all(2.0),
                             child: TextFormField(
                               keyboardType: TextInputType.name,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(9.0)),
-                                label: const Text("Name"),                                
-                                filled: true,
-                                fillColor: Colors.amber.shade100,
-                                // fillColor: const Color.fromARGB(255, 236, 220, 162),
-                                focusColor: Colors.blueGrey
-                              ),
+                              decoration: InputDecoration(hintText: "Name",
+                       prefixIcon: const Icon(Icons.phone_outlined, size: 18),
+                       contentPadding: const EdgeInsets.all(12),
+                       floatingLabelBehavior: FloatingLabelBehavior.never,
+                       hintStyle: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.deepPurple[700]),
+                                  border: OutlineInputBorder( borderRadius: BorderRadius.circular(10)),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(color: Colors.transparent),
+                                            borderRadius: BorderRadius.circular(10)),
+                                        filled: true,
+                                        fillColor: Theme.of(context).colorScheme.onPrimary.withOpacity(0.7),
+                                      ),
+              
                               onSaved: (value){
                                   _enteredName= value!;
                               },
@@ -148,15 +153,21 @@ try{
                           child: Padding(
                             padding: const EdgeInsets.all(2.0),
                             child: TextFormField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(9.0)),
-                                label: const Text("Email"),
-                                
-                                filled: true,
-                                fillColor: Colors.amber.shade100,
-                                // fillColor: const Color.fromARGB(255, 236, 220, 162),
-                                focusColor: Colors.blueGrey
-                              ),
+                              decoration: InputDecoration(hintText: "Email",
+                       prefixIcon: const Icon(Icons.mail_outline, size: 18),
+                       contentPadding: const EdgeInsets.all(12),
+                       floatingLabelBehavior: FloatingLabelBehavior.never,
+                       hintStyle: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.deepPurple[700]),
+                                  border: OutlineInputBorder( borderRadius: BorderRadius.circular(10)),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(color: Colors.transparent),
+                                            borderRadius: BorderRadius.circular(10)),
+                                        filled: true,
+                                        fillColor: Theme.of(context).colorScheme.onPrimary.withOpacity(0.7),
+                                      ),
+              
                               onSaved: (value){
                                   _enteredEmail= value!;
                               },
@@ -175,13 +186,21 @@ try{
                           child: Padding(
                             padding: const EdgeInsets.all(2.0),
                             child: TextFormField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(9.0)),
-                                label: const Text("Password"),
-                                filled: true,
-                                fillColor: const Color.fromARGB(255, 236, 220, 162),
-                                focusColor: Colors.blueGrey
-                              ),
+                              decoration: InputDecoration(hintText: "Password",
+                       prefixIcon: const Icon(Icons.password_outlined, size: 18),
+                       contentPadding: const EdgeInsets.all(12),
+                       floatingLabelBehavior: FloatingLabelBehavior.never,
+                       hintStyle: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.deepPurple[700]),
+                                  border: OutlineInputBorder( borderRadius: BorderRadius.circular(10)),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(color: Colors.transparent),
+                                            borderRadius: BorderRadius.circular(10)),
+                                        filled: true,
+                                        fillColor: Theme.of(context).colorScheme.onPrimary.withOpacity(0.7),
+                                      ),
+              
                               obscureText: true,
                               onSaved: (value){
                                 _enteredPassword= value!;
@@ -191,21 +210,9 @@ try{
                           ),
                         ),
                         const SizedBox(height: 12,),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 45,
-                    // height: ,
-                    child: ElevatedButton(
-                            onPressed: _submit, 
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color.fromARGB(255, 142, 102, 153),
-                              foregroundColor: Colors.amberAccent,
-                              // padding: EdgeInsets.all(3.0)
-                              // shape: const BeveledRectangleBorder()
-                            ),
-                            child: Text(_isLogin ? "Log in" :"Sign Up")
-                            ),
-                  ),
+                                   ElevatedButton.icon(onPressed: _submit, icon: const Icon(Icons.add_shopping_cart_outlined), label: const Text("Add")),
+ 
+                  
                       
                         const SizedBox(height: 20,),
                        TextButton(
@@ -226,7 +233,7 @@ try{
                   
                   
                     ),
-                ),
+                
                 
                 ),
               ),

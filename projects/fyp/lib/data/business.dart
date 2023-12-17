@@ -1,4 +1,8 @@
-const businesses= [
-  'Ecommerce', 'Grocery', 'Electronics', 
+
+
+List<dynamic> businesses= [
+
+    'Ecommerce',
+     'Grocery', 'Electronics', 
   'Restaurant', 'Textile', 'Bakers', 
 ];

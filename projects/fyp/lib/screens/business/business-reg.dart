@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/data/business.dart';
-import 'package:fyp/screens/shop/shops.dart';
+import 'package:fyp/widgets/UI/TextInput.dart';
+import 'package:fyp/widgets/UI/drop-down.dart';
+import 'package:uuid/uuid.dart';
 
 
 FirebaseDatabase database = FirebaseDatabase.instance;
@@ -16,7 +18,11 @@ class BusinessRegistrationScreen extends StatefulWidget {
 
 class _BusinessRegistrationScreenState extends State<BusinessRegistrationScreen> {
   final _form = GlobalKey<FormState>();
-    var _selectedBusiness = businesses.first;
+//  List<dynamic> businesses= [
+//     'Ecommerce',
+//   'Restaurant', 'Textile', 'Bakers', 
+// ];
+    final _selectedBusiness= businesses.first;
     var _enteredBusinessName='';  
 
     void _register () async{
@@ -28,17 +34,22 @@ class _BusinessRegistrationScreenState extends State<BusinessRegistrationScreen>
 
     try{
         final user= FirebaseAuth.instance.currentUser;
-        DatabaseReference ref= database.ref('businesses');
-       final data= await ref.set({
+        String uuid = const Uuid().v4();
+        DatabaseReference ref= database.ref().child('shops');
+
+       final data= await ref.push().set({
+            'shopId': 'S-$uuid',
             'name': _enteredBusinessName,
             'category': _selectedBusiness,
-            'owner': user!.uid
+            'owner': user!.uid,
+            'products': <String, dynamic>{},
         });
-       
+
+       Navigator.of(context).pop();
          // ignore: use_build_context_synchronously
-         Navigator.of(context).push(MaterialPageRoute(builder: (ctx) =>  ShopScreen(id: "S1")));
+        //  Navigator.of(context).push(MaterialPageRoute(builder: (ctx) =>  ShopScreen(id: "S1", title: _selectedBusiness )));
     } on FirebaseException catch(error){
-        
+        print(error.message);
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -48,150 +59,64 @@ class _BusinessRegistrationScreenState extends State<BusinessRegistrationScreen>
     }
 
     }
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
      backgroundColor: Colors.purple[700] ,
       appBar: AppBar(backgroundColor: Colors.transparent),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-                Container(
-                padding: const EdgeInsets.only(top: 120),
-                decoration: const BoxDecoration(
-                color: Color.fromARGB(197, 219, 143, 203) , 
-                  borderRadius:  BorderRadius.only( 
-                    bottomLeft: Radius.circular(19),
-                    bottomRight: Radius.circular(19)
-                    )
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(
+                  top: 30,
+                  bottom: 20,
+                  left: 20,
+                  right: 20,
                 ),
-                height: 300,
-                alignment: Alignment.topCenter,
-                  
-                    child: const Text("Register Your Business",
-                    style: TextStyle(
-                          decorationStyle: TextDecorationStyle.wavy,
-                          backgroundColor: Color.fromARGB(189, 99, 67, 96),
-                          color: Color.fromARGB(255, 255, 254, 251),
-                          fontStyle: FontStyle.italic,
-                          fontSize: 25.0,
+                width: double.infinity,
+                child: Image.asset('assets/images/business.png'),
+              ),
+              Card(
+                margin: const EdgeInsets.all(20),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Form(
+                      key: _form,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextInput(onSaved: (value){
+                            _enteredBusinessName= value!;
+                          }, label: "Your Businness Name"),
+                          const SizedBox(height: 12),
+                          DropDown(value: _selectedBusiness, items: businesses, label: "Select Business Type"),      
+                          ElevatedButton.icon(
+                          onPressed: _register, 
+                          icon: const Icon(Icons.app_registration_outlined), 
+                          label: const Text("Register")),
                           
-                    ),
-                    ),
-                   
-               ),
-                 // clipBehavior: Clip.hardEdge,
-            
-            Padding(
-              padding: const EdgeInsets.all(7.0),
-              child: Center(
-              child: Form(
-                  key: _form,
-                  child: 
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width:2.0, 
-                        color: Colors.white10,
-                          )
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(9.0)),
-                              label: const Text("Name Of Business"),
-                              filled: true,
-                              fillColor: const Color.fromARGB(255, 236, 220, 162),
-                              focusColor: Colors.blueGrey
-                            ),
-                            onSaved: (value){
-                              _enteredBusinessName= value!;
-                                // _enteredEmail= value!;
+                          TextButton(
+                            onPressed: () {
+                            Navigator.of(context).pop();
                             },
-                                    
+                            child: const Text('skip')
                           ),
-                        ),
+                        ],
                       ),
-                      const SizedBox(height: 12,),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width:2.0, 
-                        color: Colors.white10,
-                          )
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: DropdownButtonFormField(
-                            dropdownColor: const Color.fromARGB(255, 236, 220, 162),
-                            value: _selectedBusiness,
-                            
-                            items: [
-                              for( var business in businesses)
-                                DropdownMenuItem(
-                                  value: business,
-                                  child: Text(business))
-                            ],
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(9.0)),
-                              label: const Text("-- Select Business Type --"),
-                            
-                              filled: true,
-                              fillColor: const Color.fromARGB(255, 236, 220, 162),
-                              focusColor: Colors.blueGrey
-                            ),
-                            
-                            onChanged: (value){
-                              setState(() {
-                              _selectedBusiness= value!;  
-                              });
-                              // _enteredPassword= value!;
-                            },
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12,),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 142, 102, 153),
-                        foregroundColor: Colors.amberAccent
-                      ),
-                      onPressed:(){
-                          _register();
-                      } //_submit, 
-                      ,child: Text('Register')
-                      ),
-                      const SizedBox(height: 20,),
-                     TextButton(
-                      onPressed: (){
-                            FirebaseAuth.instance.signOut();
-                     }, 
-                       child: const Text( "Skip",
-                       style:TextStyle(
-                        color: Colors.amber
-                       ),
-                       ),
-                     )
-                    ],
-                
-                
+                    ),
                   ),
-                )
                 ),
               ),
-            ),
-          ]
+            ],
+          ),
         ),
-      ),  
-    );
+      ),
+    ); // clipBehavior: Clip.hardEd 
+            
+    
   }
 }
