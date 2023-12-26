@@ -7,8 +7,8 @@ FirebaseDatabase database = FirebaseDatabase.instance;
 
 
 class ProductsOverviewScreen extends StatelessWidget {
-  const ProductsOverviewScreen({super.key});
-
+  const ProductsOverviewScreen({super.key, required this.shopId});
+  final String shopId;
   @override
   Widget build(BuildContext context) {
   
@@ -17,13 +17,14 @@ class ProductsOverviewScreen extends StatelessWidget {
       body: Container(
         padding: const EdgeInsets.all(11),
         color: Theme.of(context).colorScheme.primary.withOpacity(0.9),
-        child: ProductList( 
+        child: ProductList(
+          shopId: shopId, 
           // getProductsStream: getProductsStream, 
         )
     ),
 
       floatingActionButton: FloatingActionButton.small(onPressed: (){
-        Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=> const ManageProductScreen(id: null) ));
+        Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>  ManageProductScreen(sid:shopId) ));
       },
       child: const Icon(Icons.add,
       size: 24,

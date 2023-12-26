@@ -9,6 +9,7 @@ import 'package:fyp/screens/products/products-overview.dart';
 import 'package:fyp/screens/shop/create-shop.dart';
 import 'package:fyp/widgets/UI/badge.dart' as badge;
 import 'package:fyp/widgets/UI/main-drawer.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 class ShopScreen extends ConsumerStatefulWidget {
   const ShopScreen({super.key, required this.id, required this.title});
   final String id;
@@ -48,7 +49,7 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
     // var activePageTitle = 'Categories';
 
     if (_selectedPageIndex == 1) {
-      activePage = const ProductsOverviewScreen();
+      activePage = ProductsOverviewScreen(shopId: widget.id ,);
     }
     if (_selectedPageIndex == 2) {
       activePage = const PaymentScreen();
@@ -58,7 +59,9 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
     
     return Scaffold(
       appBar: AppBar(
-        // systemOverlayStyle: SystemUiOverlayStyle.light,
+        // toolbarOpacity: 0.9,
+    
+      backgroundColor: Color.fromRGBO(27,9,61,1.000),
       actions: [
 
         badge.Badge(
@@ -68,12 +71,55 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
           }, icon: Icon(Icons.shopping_cart, color: Theme.of(context).colorScheme.onSecondary,)),
         )
       ],
-       backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+      //  backgroundColor:
        foregroundColor: Theme.of(context).colorScheme.background,
         title:  Center(child:  Text(widget.title)),
       ),
 
-      body: activePage,
+      body: 
+        activePage,
+      bottomNavigationBar:
+      
+      Container(
+ padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        
+        decoration: BoxDecoration(
+          
+        color:Color.fromRGBO(82,36,91,1.000),
+        // rgba(131, 107, 137, 1)
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(100, 131, 107, 137),
+          borderRadius:BorderRadius.circular(26.0)
+            ),  
+            child: const GNav(
+              activeColor: Color.fromARGB(255, 255, 255, 255),
+              tabBackgroundColor: Color.fromRGBO(104, 86, 109, 0.937),
+            
+              tabs:  [
+               GButton(
+              
+                  icon: Icons.home,
+                  text: 'Home',
+                ),
+               GButton(
+                  icon: Icons.category_rounded,
+                  text: 'Products',
+                ),
+               GButton(
+                  icon:Icons.payment,
+                  text: 'Payment',
+                ),
+            
+            ]),
+          )
+        ),
+      
+            
+            
+      
+      drawer: MainDrawer(onSelectScreen: _setScreen,),
       // floatingActionButton: FloatingActionButton.small(
       //   backgroundColor: Theme.of(context).colorScheme.background,
       //   onPressed: (){
@@ -81,19 +127,44 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
       //      },
       // child: const Icon(Icons.add_shopping_cart_sharp),
       // ),
-      drawer: MainDrawer(onSelectScreen: _setScreen,),
-      bottomNavigationBar:  BottomNavigationBar(
-        backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
-        unselectedItemColor: Theme.of(context).colorScheme.tertiary,
-        onTap: _selectPage,
-        currentIndex: _selectedPageIndex,
-        selectedItemColor: Colors.amberAccent,
-        items: const  [
-        BottomNavigationBarItem(icon: Icon(Icons.add), label: "Home"),
-        BottomNavigationBarItem(icon: Icon(Icons.local_grocery_store), label: "Products" ),
-        BottomNavigationBarItem(icon: Icon(Icons.add), label: "Payments")
+    //   bottomNavigationBar:  Container(
+    //     color: Color.fromRGBO(82,36,91,1.000),
+      
+    //     // padding: const EdgeInsets.all(8.0),
+    //     child:GNav(
+          
+    //       tabBackgroundColor: Color.fromRGBO(33, 29, 34, 0.938),
+    //       tabs: const [
+    //        GButton(
 
-      ]),
+    //   icon: Icons.home,
+    //   text: 'Home',
+    // ),
+    //        GButton(
+    //   icon: Icons.category_rounded,
+    //   text: 'Home',
+    // ),
+    //        GButton(
+    //   icon:Icons.payment,
+    //   text: 'Home',
+    // ),
+
+    //     ])
+    //   ),
     );
   }
 }
+
+//  BottomNavigationBar(
+//           type: BottomNavigationBarType.fixed,
+//           backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+//           unselectedItemColor: Theme.of(context).colorScheme.tertiary,
+//           onTap: _selectPage,
+//           currentIndex: _selectedPageIndex,
+//           selectedItemColor: Colors.amberAccent,
+//           items: const  [
+//           BottomNavigationBarItem(icon: Icon(Icons.add), label: "Home"),
+//           BottomNavigationBarItem(icon: Icon(Icons.local_grocery_store), label: "Products" ),
+//           BottomNavigationBarItem(icon: Icon(Icons.add), label: "Payments")
+        
+//         ]),

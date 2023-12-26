@@ -12,8 +12,8 @@ FirebaseDatabase database = FirebaseDatabase.instance;
 
 
 class ManageProductScreen extends StatefulWidget {
-  const ManageProductScreen({super.key, this.id});
-  final String? id;
+  const ManageProductScreen({super.key, required this.sid});
+  final String sid;
   @override
   State<ManageProductScreen> createState() => _ManageProductScreenState();
 }
@@ -43,7 +43,7 @@ void _addProduct () async{
 
     try{
       final user = _firebase.currentUser!;
-      
+      final productId =uuid.v4();
         final storageRef = FirebaseStorage.instance
             .ref()
             .child('user_images')
@@ -52,15 +52,19 @@ void _addProduct () async{
         await storageRef.putFile(_selectedImage!);
 
         final imageUrl = await storageRef.getDownloadURL();
-      final products= await database.ref().child('products').push().set({
+      final products= await database.ref().child('products').child(productId).set({
        "title": title,
        "Cost": cost,
        "price": price,
        "imageUrl" : imageUrl,
-       "id": uuid.v4(),
+       "id": productId,
        'productOwnerid': user.uid,
+       'shopId': widget.sid
       });
-      // print(products!);
+          
+
+     final shops= await database.ref().child('shops').push().get();
+      print(shops.value);
     // print(product);
     } on FirebaseException
 
@@ -76,14 +80,14 @@ catch(e){
 
   @override
   Widget build(BuildContext context) {
-     final text= widget.id != null ? "Edit Product" :  "Add Product";
-    print(text);     
+    //  final text= widget.id != null ? "Edit Product" :  "Add Product";
+    // print(text);     
      return Scaffold(
       // backgroundColor: Theme.of(context).colorScheme.onPrimary,
       appBar: AppBar(
         foregroundColor:Theme.of(context).colorScheme.onPrimary,
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
-        title: Text(widget.id != null ? "Edit Product" :  "Add Product"),
+        title: Text("Add Product"),
       ),
       backgroundColor:  Theme.of(context).colorScheme.primary.withOpacity(0.9),
       body: SingleChildScrollView(

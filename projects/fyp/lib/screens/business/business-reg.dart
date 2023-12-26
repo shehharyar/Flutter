@@ -22,7 +22,7 @@ class _BusinessRegistrationScreenState extends State<BusinessRegistrationScreen>
 //     'Ecommerce',
 //   'Restaurant', 'Textile', 'Bakers', 
 // ];
-    final _selectedBusiness= businesses.first;
+    var _selectedBusiness= businesses.first;
     var _enteredBusinessName='';  
 
     void _register () async{
@@ -37,12 +37,14 @@ class _BusinessRegistrationScreenState extends State<BusinessRegistrationScreen>
         String uuid = const Uuid().v4();
         DatabaseReference ref= database.ref().child('shops');
 
-       final data= await ref.push().set({
+       final data= await ref.child("S-$uuid").set({
             'shopId': 'S-$uuid',
             'name': _enteredBusinessName,
             'category': _selectedBusiness,
             'owner': user!.uid,
-            'products': <String, dynamic>{},
+            'products':[
+              {0:"1"},
+            ]
         });
 
        Navigator.of(context).pop();
@@ -61,7 +63,8 @@ class _BusinessRegistrationScreenState extends State<BusinessRegistrationScreen>
     }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+  print('business=== $_selectedBusiness');
+  return Scaffold(
      backgroundColor: Colors.purple[700] ,
       appBar: AppBar(backgroundColor: Colors.transparent),
       body: Center(
@@ -93,7 +96,14 @@ class _BusinessRegistrationScreenState extends State<BusinessRegistrationScreen>
                             _enteredBusinessName= value!;
                           }, label: "Your Businness Name"),
                           const SizedBox(height: 12),
-                          DropDown(value: _selectedBusiness, items: businesses, label: "Select Business Type"),      
+                         
+                          DropDown(value: _selectedBusiness, 
+                          onChanged: (value){
+                            setState(() {
+                              _selectedBusiness=value!;
+                            });
+                          },
+                          items: businesses, label: "Select Business Type"),      
                           ElevatedButton.icon(
                           onPressed: _register, 
                           icon: const Icon(Icons.app_registration_outlined), 
