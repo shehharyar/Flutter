@@ -138,9 +138,40 @@ catch(e){
                           return "This field should not be empty..";
                         }
                       },
+                      icon: Icons.receipt,
+                      keyboardType: TextInputType.number,
+                      label: "Cost 0f good",
+                    ),
+                   
+                   const SizedBox(height: 20,),
+                    TextInput(
+                          onSaved: (value) {
+                        setState(() {
+                          price= value!;
+                        });                       
+                      }, validator: (value){
+                        if(value!.isEmpty){
+                          return "This field should not be empty..";
+                        }
+                      },
                       icon: Icons.payment_outlined,
                       keyboardType: TextInputType.number,
                       label: "Price",
+                    ),
+                    const SizedBox(height: 20,),
+                    TextInput(
+                          onSaved: (value) {
+                        setState(() {
+                          price= value!;
+                        });                       
+                      }, validator: (value){
+                        if(value!.isEmpty){
+                          return "This field should not be empty..";
+                        }
+                      },
+                      icon: Icons.receipt,
+                      keyboardType: TextInputType.number,
+                      label: "Other expenses",
                     ),
                    const SizedBox(height: 20,),
                    

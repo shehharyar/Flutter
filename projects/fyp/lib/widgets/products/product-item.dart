@@ -48,8 +48,8 @@ class _ProductItemState extends ConsumerState<ProductItem> {
 
 print(itemIsSelected);
     return Card(
-              color: Theme.of(context).colorScheme.onSecondaryContainer.withOpacity(0.8),
-              shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.7),
+              color: Color.fromARGB(185, 7, 0, 8),
+              shadowColor: Color.fromARGB(255, 87, 51, 88),
               elevation: 8.0,
               child: Column(
                 children: [
@@ -95,7 +95,7 @@ print(itemIsSelected);
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      
+                      margin: const EdgeInsets.symmetric(vertical: 8),
                       padding: const EdgeInsets.all(2),
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),
                       color:

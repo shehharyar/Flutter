@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DropDown extends StatefulWidget {
- const DropDown({super.key, required this.value, this.onChanged, required this.items, required this.label});
+ const DropDown({super.key, required this.value, required this.onChanged, required this.items, required this.label});
   final dynamic value;
-  final void Function(dynamic)? onChanged; 
+  final void Function(dynamic) onChanged; 
     final List<dynamic> items;
     final String label;
 
@@ -43,12 +43,7 @@ class _DropDownState extends State<DropDown> {
                                         fillColor: Theme.of(context).colorScheme.onPrimary.withOpacity(0.7),
                                       ),
                             
-                            onChanged:(value){
-                              setState(() {
-                             widget.onChanged?.call(value);
-                                
-                              });
-                            }
+                            onChanged: widget.onChanged
                               // _enteredPassword= value!;
                            
                           ),

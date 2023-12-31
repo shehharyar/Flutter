@@ -16,7 +16,15 @@ class ProductsOverviewScreen extends StatelessWidget {
     
       body: Container(
         padding: const EdgeInsets.all(11),
-        color: Theme.of(context).colorScheme.primary.withOpacity(0.9),
+        decoration:const BoxDecoration(
+         gradient: LinearGradient(  
+            begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+            colors: [Color.fromRGBO(27,9,61,1.000),Color.fromRGBO(82,36,91,1.000),])
+        ),
+
+        
+        // color: Theme.of(context).colorScheme.primary.withOpacity(0.9),
         child: ProductList(
           shopId: shopId, 
           // getProductsStream: getProductsStream, 

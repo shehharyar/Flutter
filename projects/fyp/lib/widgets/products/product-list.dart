@@ -37,8 +37,8 @@ import 'package:fyp/widgets/products/product-item.dart';
 
 
 class ProductList extends StatefulWidget {
-  const ProductList({super.key});
-
+  const ProductList({super.key, required this.shopId });
+  final String shopId;
   @override
   State<ProductList> createState() => _ProductListState();
 }
@@ -48,7 +48,7 @@ class _ProductListState extends State<ProductList> {
  
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(stream: data.child('products').onValue, builder: (context, productSnapshots) {
+    return StreamBuilder(stream: data.child('products').orderByChild('shopId').equalTo(widget.shopId).onValue, builder: (context, productSnapshots) {
         if( productSnapshots.connectionState == ConnectionState.waiting){
             return const Center(
               child: CircularProgressIndicator(

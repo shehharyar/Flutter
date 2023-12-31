@@ -93,10 +93,11 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
               color: const Color.fromARGB(100, 131, 107, 137),
           borderRadius:BorderRadius.circular(26.0)
             ),  
-            child: const GNav(
+            child: GNav(
               activeColor: Color.fromARGB(255, 255, 255, 255),
               tabBackgroundColor: Color.fromRGBO(104, 86, 109, 0.937),
-            
+              onTabChange:_selectPage ,
+              selectedIndex: _selectedPageIndex,
               tabs:  [
                GButton(
               
