@@ -26,6 +26,9 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
  var title="";
  var price="";
  var cost="";
+ var stock ="";
+ var others ="";
+
 
 void _addProduct () async{
    final isValid = _form.currentState?.validate() ?? false;
@@ -56,6 +59,8 @@ void _addProduct () async{
        "title": title,
        "Cost": cost,
        "price": price,
+       "stock": stock,
+        "Others":others,
        "imageUrl" : imageUrl,
        "id": productId,
        'productOwnerid': user.uid,
@@ -116,7 +121,7 @@ catch(e){
                           label: "Stock",
                           onSaved: (value) {
                         setState(() {
-                          cost= value!;
+                          stock= value!;
                         });                       
                       },
                       validator: (value){
@@ -131,7 +136,7 @@ catch(e){
                     TextInput(
                           onSaved: (value) {
                         setState(() {
-                          price= value!;
+                          cost= value!;
                         });                       
                       }, validator: (value){
                         if(value!.isEmpty){
@@ -162,7 +167,7 @@ catch(e){
                     TextInput(
                           onSaved: (value) {
                         setState(() {
-                          price= value!;
+                          others= value!;
                         });                       
                       }, validator: (value){
                         if(value!.isEmpty){

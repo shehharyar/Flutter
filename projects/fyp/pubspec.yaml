@@ -48,6 +48,9 @@ dependencies:
   flutter_riverpod: ^2.4.9
   google_nav_bar: ^5.0.6
   intl: ^0.18.1
+  open_file: ^3.3.2
+  pdf: ^3.10.7
+  open_document: ^1.0.7
 
 dev_dependencies:
   flutter_test:

@@ -49,6 +49,35 @@ class _ProductListState extends State<ProductList> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(stream: data.child('products').orderByChild('shopId').equalTo(widget.shopId).onValue, builder: (context, productSnapshots) {
+          if (!productSnapshots.hasData ||
+            productSnapshots.data!.snapshot.value == null) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 30, bottom: 20),
+                  child: Image.asset(
+                    'assets/images/products-fallback.png',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Text(
+                  "No Products added yet. Try adding some",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Sans Serif',
+                    color: Color.fromARGB(255, 239, 154, 154),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        
+        
         if( productSnapshots.connectionState == ConnectionState.waiting){
             return const Center(
               child: CircularProgressIndicator(
@@ -78,7 +107,9 @@ class _ProductListState extends State<ProductList> {
     return ListView.builder(itemBuilder: (ctx, i) => 
     ProductItem(id: loadedProducts[i]['id'] as String? ?? '', 
     title:loadedProducts[i]['title']as String? ?? '', 
+    stock: loadedProducts[i]['stock'] as String? ?? "",
     cost: loadedProducts[i]['Cost']as String? ?? '', 
+    others:loadedProducts[i]['Others'] as String? ?? "",
     price: loadedProducts[i]['price']as String? ?? '', imageUrl: loadedProducts[i]['imageUrl']as String? ?? ''),
     
     itemCount: loadedProducts.length,

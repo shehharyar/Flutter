@@ -14,7 +14,7 @@ class CartItemWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return 
      Container(
-      
+      width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 9, vertical: 13),
        child: Card(
         elevation: 7,
@@ -31,18 +31,16 @@ class CartItemWidget extends ConsumerWidget {
                       radius: 50,
                     ),
                   ),
-            Container(
-              child: Column(
-                children: [
-                  Text(item!.title,
-                  style:  Theme.of(context).textTheme.displayMedium ,
-                  ),
-                  Text(item!.price.toString()),
-                ],
-              ),
+            Column(
+              children: [
+                Text(item!.title,
+                style:  Theme.of(context).textTheme.displaySmall ,
+                ),
+                Text(item!.price.toString()),
+              ],
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(6.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
