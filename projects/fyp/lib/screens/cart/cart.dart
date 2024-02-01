@@ -95,6 +95,7 @@ class CartScreen extends ConsumerWidget {
                 ElevatedButton.icon(
                   onPressed: () {
                     _createPDF(carts);
+                    // carts.clear();
                   },
                   icon: const Icon(Icons.check_circle_outline_outlined),
                   label: const Text("Proceed"),
@@ -113,7 +114,9 @@ class CartScreen extends ConsumerWidget {
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
+          print(carts);
           return <pw.Widget>[
+          
             // ignore: deprecated_member_use
             pw.Table.fromTextArray(
               data: <List<String>>[
@@ -128,5 +131,6 @@ class CartScreen extends ConsumerWidget {
 
     await file.writeAsBytes(await pdf.save());
     OpenFile.open(file.path);
+   
   }
 }

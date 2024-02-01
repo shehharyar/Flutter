@@ -10,7 +10,7 @@ class CartList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref ) {
-
+  // final carts=  ref.watch(cartProvider);
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (ctx, i) => CartItemWidget(item: items[i],

@@ -12,6 +12,7 @@ class CartItemWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print("image==> " + item!.image);
     return 
      Container(
       width: double.infinity,

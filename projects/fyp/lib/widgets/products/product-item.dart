@@ -141,7 +141,15 @@ class _ProductItemState extends ConsumerState<ProductItem> {
                   ),
                   child: IconButton(
                     onPressed: () {
-                      ref.read(cartProvider.notifier).incrementQuantity(widget.id);
+                      if(ref.watch(cartProvider).contains(widget.id)){
+                          ref.read(cartProvider.notifier).incrementQuantity(widget.id);
+
+                      }
+                      else{
+                  _cartHandler(CartItem(id: widget.id, title: widget.title, image: widget.imageUrl, quantity: 1, price: double.parse(widget.price)));
+                  ref.read(cartProvider.notifier).incrementQuantity(widget.id);
+                      }
+
                     },
                     icon: Icon(
                       Icons.add,

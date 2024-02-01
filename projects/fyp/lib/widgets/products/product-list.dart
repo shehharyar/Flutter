@@ -45,9 +45,9 @@ class ProductList extends StatefulWidget {
 
 class _ProductListState extends State<ProductList> {
  DatabaseReference data= FirebaseDatabase.instance.ref();
- 
   @override
   Widget build(BuildContext context) {
+    print("Shop Id ==> " + widget.shopId);
     return StreamBuilder(stream: data.child('products').orderByChild('shopId').equalTo(widget.shopId).onValue, builder: (context, productSnapshots) {
           if (!productSnapshots.hasData ||
             productSnapshots.data!.snapshot.value == null) {

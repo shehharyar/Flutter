@@ -51,6 +51,7 @@ dependencies:
   open_file: ^3.3.2
   pdf: ^3.10.7
   open_document: ^1.0.7
+  path_provider: ^2.1.2
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +79,7 @@ flutter:
   assets:
       - assets/images/auth.png
       - assets/images/business.png
+      - assets/images/products-fallback.png
       - assets/ads/baked.jpg
       - assets/ads/cupcakes.jpg
       - assets/ads/grocery.jpg
