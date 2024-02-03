@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fyp/screens/shop/shops.dart';
 class ShopItem extends StatelessWidget {
-  const ShopItem({super.key, required this.id, required this.title, required this.products});
+  const ShopItem({super.key, required this.id, required this.title});
   final String id;
   final String title;
-  final List<Object?> products;
+  // final List<Object?> products;
   // final String id:
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class ShopItem extends StatelessWidget {
                         child: const Icon(Icons.shopping_bag_outlined),
                       ),
                       title: Text(title),
-                      trailing: Text(products.length.toString()),
+                      trailing: const Text("0"),
                     ),
                   );
               

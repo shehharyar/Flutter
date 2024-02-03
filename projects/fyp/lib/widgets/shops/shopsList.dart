@@ -45,8 +45,7 @@ class _ShopsListState extends State<ShopsList> {
     //         productData != null ? List.from(productData as Iterable) : [];
     return ListView.builder(itemBuilder: (ctx, i) => 
     ShopItem(id: loadedProducts[i]['id'] as String? ?? '', 
-    title:loadedProducts[i]['name']as String? ?? '', 
-    products: [], 
+    title:loadedProducts[i]['name']as String? ?? '',   
    ),
     
     itemCount: loadedProducts.length,

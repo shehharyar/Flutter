@@ -42,9 +42,7 @@ class _BusinessRegistrationScreenState extends State<BusinessRegistrationScreen>
             'name': _enteredBusinessName,
             'category': _selectedBusiness,
             'owner': user!.uid,
-            'products':[
-              {0:"1"},
-            ]
+            
         });
 
        Navigator.of(context).pop();
