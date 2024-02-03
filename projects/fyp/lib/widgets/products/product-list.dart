@@ -49,8 +49,14 @@ class _ProductListState extends State<ProductList> {
   Widget build(BuildContext context) {
     print("Shop Id ==> " + widget.shopId);
     return StreamBuilder(stream: data.child('products').orderByChild('shopId').equalTo(widget.shopId).onValue, builder: (context, productSnapshots) {
-          if (!productSnapshots.hasData ||
-            productSnapshots.data!.snapshot.value == null) {
+        if( productSnapshots.connectionState == ConnectionState.waiting){
+            return const Center(
+              child: CircularProgressIndicator(
+              ),
+            );
+}
+
+if (!productSnapshots.hasData || productSnapshots.data!.snapshot.value == null) {
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +68,7 @@ class _ProductListState extends State<ProductList> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                Text(
+              const Text(
                   "No Products added yet. Try adding some",
                   style: TextStyle(
                     fontSize: 20,
@@ -75,15 +81,6 @@ class _ProductListState extends State<ProductList> {
             ),
           );
         }
-
-        
-        
-        if( productSnapshots.connectionState == ConnectionState.waiting){
-            return const Center(
-              child: CircularProgressIndicator(
-              ),
-            );
-}
       if(! productSnapshots.hasData ||  productSnapshots.data!.snapshot.value == null){
         return const Center( 
           child: Text("No Products added yet!."),);

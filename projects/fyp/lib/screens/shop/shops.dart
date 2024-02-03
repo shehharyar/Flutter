@@ -67,7 +67,7 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
         badge.Badge(
           value: carts.length.toString(),
           child: IconButton(onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => CartScreen()));
+            Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => CartScreen(shopId: widget.id,)));
           }, icon: Icon(Icons.shopping_cart, color: Theme.of(context).colorScheme.onSecondary,)),
         )
       ],

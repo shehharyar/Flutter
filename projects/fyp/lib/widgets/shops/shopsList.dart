@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp/screens/business/business-reg.dart';
 import 'package:fyp/widgets/shops/shopItem.dart';
 
 class ShopsList extends StatefulWidget {
@@ -24,8 +25,34 @@ class _ShopsListState extends State<ShopsList> {
             );
 }
       if(! shopSnapshots.hasData ||  shopSnapshots.data!.snapshot.value == null){
-        return const Center( 
-          child: Text("No Products added yet!."),);
+        return Center( 
+          
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 30, bottom: 20),
+                  child: Image.asset(
+                    'assets/images/shops-fall.png',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+               const Text(
+                  "No Shops registered yet.",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Sans Serif',
+                    color: Color.fromARGB(255, 239, 154, 154),
+                  ),
+                ),
+                Padding(padding: const EdgeInsets.all(8),
+               child: ElevatedButton.icon(onPressed: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => BusinessRegistrationScreen()));
+               }, icon: const Icon(Icons.add_business_outlined), label: const Text("Register Now")), 
+                )
+              ],
+            ),);
       }
       if(shopSnapshots.hasError){
         return const Center(
@@ -44,7 +71,7 @@ class _ShopsListState extends State<ShopsList> {
     //     final List<Map<Object, Object>> loadedProducts =
     //         productData != null ? List.from(productData as Iterable) : [];
     return ListView.builder(itemBuilder: (ctx, i) => 
-    ShopItem(id: loadedProducts[i]['id'] as String? ?? '', 
+    ShopItem(id: loadedProducts[i]['shopId'] as String? ?? '', 
     title:loadedProducts[i]['name']as String? ?? '',   
    ),
     
