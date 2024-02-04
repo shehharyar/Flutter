@@ -64,6 +64,7 @@
 
 // ignore_for_file: use_build_context_synchronously
 
+
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -81,6 +82,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:uuid/uuid.dart';
 
 FirebaseDatabase database = FirebaseDatabase.instance;
+
 class CartScreen extends ConsumerWidget {
   const CartScreen({super.key, required this.shopId});
   final String shopId;
@@ -89,41 +91,150 @@ class CartScreen extends ConsumerWidget {
     final carts = ref.watch(cartProvider);
     
    var uuid = const Uuid();
+Future<void> _addToSales(List<CartItem> cartItems) async {
+  _createPDF(cartItems);
 
-void _addToSales (List<CartItem> cartItems) async{
-      
-    _createPDF(cartItems);
-
-    try{
-      final salesId =uuid.v4();
-Map<String, dynamic> saleData = {
-      'timestamp': DateTime.now().toString(),
+  try {
+    final salesId = uuid.v4();
+    final currentDate = DateTime.now().toString().split(' ')[0]; // Get today's date
+    Map<String, dynamic> saleData = {
+      'timestamp': currentDate,
       'items': cartItems.map((cart) => {
         'title': cart.title,
         'price': cart.price,
         'quantity': cart.quantity,
-        "porfit": (cart.price / 4) * cart.quantity,
+        'profit': (cart.price / 4) * cart.quantity, // Assuming profit calculation
         'id': salesId,
         'shopId': shopId
       }).toList(),
     };
 
-      final sales= await database.ref().child('sales').child(salesId).set(saleData).then((value) {
-      // If successful, clear the cart
-      carts.clear();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Sale data added successfully')),
-      );
-    });
-  } on FirebaseException
+    // Get existing sales data
+    final existingSalesSnapshot = await database.ref().child('sales').once();
+    Map<dynamic, dynamic>? existingSalesData = existingSalesSnapshot.snapshot.value as Map?;
 
-catch(e){
-    ScaffoldMessenger.of(context).clearSnackBars();
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message ?? "Can't send data...")));
+    if (existingSalesData == null) {
+      existingSalesData = {};
     }
 
-    Navigator.of(context).pop();
+    // Update or add items to the sales data
+    saleData['items'].forEach((item) {
+      bool itemExists = false;
+
+      existingSalesData?.forEach((key, value) {
+        if(value['timestamp'] == currentDate){
+        List<dynamic> items = value['items'];
+        for (var existingItem in items) {
+          if (existingItem['title'] == item['title']) {
+            // Update existing item
+            existingItem['quantity'] += item['quantity'];
+            existingItem['price'] += item['price'];
+            existingItem['profit'] += item['profit'];
+            itemExists = true;
+            break;
+          }
+        }
+     } });
+
+      // If item doesn't exist, add it to the existing sales data
+      if (!itemExists) {
+        if (existingSalesData?[salesId] != null) {
+          existingSalesData?[salesId]['items'].add(item);
+        } else {
+          existingSalesData?[salesId] = {
+            'timestamp': currentDate,
+            'items': [item]
+          };
+        }
+      }
+    });
+
+    // Update the sales data in the database
+    await database.ref().child('sales').set(existingSalesData);
+
+    // Clear the cart if successful
+    carts.clear();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Sale data added successfully')),
+    );
+  } on FirebaseException catch (e) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(e.message ?? "Can't send data...")),
+    );
+  }
 }
+// Future<void> _addToSales(List<CartItem> cartItems) async {
+//   _createPDF(cartItems);
+
+//   try {
+//     final salesId = uuid.v4();
+//     Map<String, dynamic> saleData = {
+//       'timestamp': DateTime.now().toString(),
+//       'items': cartItems.map((cart) => {
+//         'title': cart.title,
+//         'price': cart.price,
+//         'quantity': cart.quantity,
+//         'profit': (cart.price / 4) * cart.quantity, // Assuming profit calculation
+//         'id': salesId,
+//         'shopId': shopId
+//       }).toList(),
+//     };
+
+//     // Get existing sales data
+//     final existingSalesSnapshot = await database.ref().child('sales').once();
+//    // Get existing sales data
+// // final existingSalesSnapshot = await database.ref().child('sales').once();
+// Map<dynamic, dynamic>? existingSalesData = existingSalesSnapshot.snapshot.value as Map?;
+
+// if (existingSalesData == null) {
+//   existingSalesData = {};
+// }
+
+// // Update or add items to the sales data
+// saleData['items'].forEach((item) {
+//   bool itemExists = false;
+  
+//   for (var value in existingSalesData!.values) { // Ensure existingSalesData is not null
+//     List<dynamic> items = value['items'];
+//     for (var existingItem in items) {
+      
+//       if (existingItem['id'] == item['id']) {
+//         // Update existing item
+//         existingItem['quantity'] += item['quantity'];
+//         existingItem['price'] += item['price'];
+//         existingItem['profit'] += item['profit'];
+        
+//         itemExists = true;
+//         break;
+//       }
+//     }
+//     if (itemExists) {
+//       break;
+//     }
+//   }
+
+//   // If item doesn't exist, add it to the existing sales data
+//   if (!itemExists) {
+//     existingSalesData[salesId] = saleData;
+//   }
+// });
+
+//     // Update the sales data in the database
+//     await database.ref().child('sales').set(existingSalesData);
+
+//     // Clear the cart if successful
+//     carts.clear();
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       const SnackBar(content: Text('Sale data added successfully')),
+//     );
+//   } on FirebaseException catch (e) {
+//     ScaffoldMessenger.of(context).clearSnackBars();
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       SnackBar(content: Text(e.message ?? "Can't send data...")),
+//     );
+//   }
+// }
     return Scaffold(
       appBar: AppBar(
         title: const Text("Your Carts"),
@@ -157,7 +268,7 @@ catch(e){
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
-          print(carts);
+          // print(carts);
           return <pw.Widget>[
           
             // ignore: deprecated_member_use

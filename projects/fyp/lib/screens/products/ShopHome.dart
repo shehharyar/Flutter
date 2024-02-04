@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fyp/screens/products/reports.dart';
 import 'package:fyp/screens/products/sales.dart';
 class ShopHomeScreen extends StatelessWidget {
-  const ShopHomeScreen({super.key});
-
+  const ShopHomeScreen({super.key, required this.shopId});
+  final String shopId;
   @override
   Widget build(BuildContext context) {
     // return Scaffold(
@@ -69,7 +69,7 @@ class ShopHomeScreen extends StatelessWidget {
                           InkWell(
                             onTap: (){
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder:(ctx) =>  SalesDashboard() ));
+                                builder:(ctx) =>  SalesDashboard(shopId: shopId,) ));
                             },
                             child: Container(
                               width: 150,

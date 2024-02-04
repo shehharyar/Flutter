@@ -45,7 +45,7 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
   @override
   Widget build(BuildContext context) {
     
-        Widget activePage = const ShopHomeScreen();
+        Widget activePage =  ShopHomeScreen(shopId: widget.id,);
     // var activePageTitle = 'Categories';
 
     if (_selectedPageIndex == 1) {
@@ -98,13 +98,13 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
               tabBackgroundColor: Color.fromRGBO(104, 86, 109, 0.937),
               onTabChange:_selectPage ,
               selectedIndex: _selectedPageIndex,
-              tabs:  [
+              tabs:   const [
                GButton(
               
                   icon: Icons.home,
                   text: 'Home',
                 ),
-               GButton(
+            GButton(
                   icon: Icons.category_rounded,
                   text: 'Products',
                 ),
