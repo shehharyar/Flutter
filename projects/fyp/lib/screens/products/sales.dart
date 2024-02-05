@@ -2,6 +2,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/screens/products/salesTable.dart';
+import 'package:fyp/screens/products/salesTotal.dart';
 
  DatabaseReference data= FirebaseDatabase.instance.ref();
 
@@ -59,55 +60,7 @@ class _SalesDashboardState extends State<SalesDashboard> {
             SizedBox(
               width: double.infinity,
               height: 200,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color.fromARGB(0, 40, 23, 71)),
-                      borderRadius: BorderRadius.circular(27),
-                      color: Colors.white.withOpacity(0.2),
-                      gradient: const LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [Color.fromARGB(255, 44, 6, 116), Color.fromARGB(255, 12, 4, 18)],
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Text('\$ $todaySalesTotal'.toString(), style: TextStyle(fontSize: 45, color: Colors.white)),
-                          Text("Today", textAlign: TextAlign.center, style: TextStyle(fontSize: 20, color: Colors.white)),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color.fromARGB(0, 40, 23, 71)),
-                      borderRadius: BorderRadius.circular(27),
-                      color: Colors.white.withOpacity(0.2),
-                      gradient: const LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
-                        colors: [Color.fromARGB(255, 44, 6, 116), Color.fromARGB(255, 12, 4, 18)],
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Text('\$ $yesterdaySalesTotal'.toString(), style: TextStyle(fontSize: 45, color: Colors.white)),
-                          Text("Yesterday", textAlign: TextAlign.center, style: TextStyle(fontSize: 20, color: Colors.white)),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              child:SalesTotalWigets(shopId: widget.shopId,),
             ),
             const SizedBox(height: 25,),
             SalesDataTable(shopId: widget.shopId),
