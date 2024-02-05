@@ -150,25 +150,22 @@ class _SalesTotalWigetsState extends State<SalesTotalWigets> {
   _data.once().then((snapshot) {
     if (snapshot != null && snapshot.snapshot.value != null) {
       Map<dynamic, dynamic>? salesData = snapshot.snapshot.value as Map<dynamic, dynamic>;
-     print("RUNS");
+    //  print("RUNS");
       salesData!.forEach((key, value) {
         String timestamp = value['timestamp'];
-        print(timestamp == yesterdayDate);
-        print(currentDate);
-        print(yesterdayDate);
+        // print(timestamp == yesterdayDate);
+        // print(currentDate);
+        // print(yesterdayDate);
         for(var item in value['items']){
           // print(item['profit']);
         if (timestamp == currentDate) {
-        print(value);
-      print("today");
+      
           todaySalesTotal += double.tryParse(item['profit'].toString()) ?? 0.0;
 
         } else if (timestamp == yesterdayDate) {
-      print("yester");
+      // print("yester");
           yesterdaySalesTotal += double.tryParse(item['profit'].toString()) ?? 0.0;
-      print(value["profit"]);
-      print(value["profit"].runtimeType);
-      print(yesterdaySalesTotal);
+      
         }
         }
       });

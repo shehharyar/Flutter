@@ -38,20 +38,7 @@ class _SalesDataTableState extends State<SalesDataTable> {
           return Center(child: Text("No sales data available"));
         }
 
-// final List<Map<Object?, Object?>> todaySales = [];
-// final currentDate = DateTime.now();
-// (data as Map<dynamic, dynamic>).forEach((key, value) {
-//   final timeStamp = DateTime.parse(value['timestamp']);
 
-//   // Check if the sale occurred today
-//   if (isSameDay(timeStamp, currentDate)) {
-//     for (var item in value['items']) {
-//       if (item['shopId'] == widget.shopId) {
-//         todaySales.add(item);
-//       }
-//     }
-//   }
-// });
  final List<Map<Object?, Object?>> sales = [];
         final today = DateTime.now().toString().split(' ')[0]; // Get today's date
 
@@ -60,11 +47,12 @@ class _SalesDataTableState extends State<SalesDataTable> {
           for (var item in value['items']) {
             print(value['items'][0]['quantity'].runtimeType);
     if (timeStamp == today && item['shopId'] == widget.shopId) {
-        final index = sales.indexWhere((sale) => sale['id'] == item['id']);
+        final index = sales.indexWhere((sale) => sale['title'] == item['title']);
         print(item['quantity'].runtimeType);
         if (index != -1) {
               print(sales[index]['quantity'].runtimeType); 
             if (sales[index] == null) {
+              // print("Sales");
              print( sales[index] != -1);
               // print(item['price']);
               // print("running");
