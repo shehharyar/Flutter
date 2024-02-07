@@ -53,6 +53,7 @@ dependencies:
   open_document: ^1.0.7
   path_provider: ^2.1.2
   excel: ^4.0.2
+  syncfusion_flutter_xlsio: ^24.2.4
 
 dev_dependencies:
   flutter_test:

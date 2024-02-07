@@ -1,3 +1,4 @@
+// import 'dart:html';
 import 'dart:io';
 
 import 'package:excel/excel.dart' as excel;
@@ -50,8 +51,62 @@ DateTime? _selectedEndDate;
     });
   }
  final _salesReef= FirebaseDatabase.instance.ref().child('sales');
+  // Future<void> createExcel() async {
+  //   final wb.Workbook workbook =wb.Workbook();
+  //   final wb.Worksheet sheet = workbook.worksheets[0];
+  //   sheet.getRangeByName('A1').setText('Hello World!');
+  //   final List<int> bytes = workbook.saveAsStream();
+  //   workbook.dispose();
 
-Future<void> _generateExcel() async {
+    
+  //     final String path = (await getApplicationSupportDirectory()).path; 
+  //     print('path ===>  ${path}');
+  //     final String fileName = '$path/Output.xlsx';
+  //     final File file = File(fileName);
+  //     await file.writeAsBytes(bytes);
+  //     // excel.Excel.createExcel().;
+  //     // excel
+          
+  //         OpenFile.open(fileName);
+    
+  // }
+//   Future<void> createExcel() async {
+// // Create a new Excel Document.
+// try{
+// final wb.Workbook workbook = wb.Workbook();
+
+// // Accessing worksheet via index.
+// final wb.Worksheet sheet = workbook.worksheets[0];
+
+// // Set the text value.
+// sheet.getRangeByName('A1').setText('Hello World!');
+
+// // Save and dispose the document.
+// final List<int> bytes = workbook.saveSync();
+// workbook.dispose();
+
+// // Get external storage directory
+// final directory = await getExternalStorageDirectory();
+
+// // Get directory path
+// final path = directory!.path;
+
+// // Create an empty file to write Excel data
+// File file = File('$path/Output.xlsx');
+
+// // Write Excel data
+// await file.writeAsBytes(bytes, flush: true);
+
+// // Open the Excel document in mobile
+// OpenFile.open('$path/Output.xlsx');
+// print("file opened");
+// }
+// catch(error){
+//   print('Cannot open file  $error' );
+// }
+
+// }
+Future<void> createExcel() async {
   // Fetch data from Firebase based on selected dates
   if (_selectedStartDate != null && _selectedEndDate != null) {
     String startDateString =
@@ -106,10 +161,10 @@ if (!await directory.exists()) {
   await directory.create(recursive: true);
 }
 var file= File(path.join("$directory/output_file_name.xlsx"))
-  ..createSync(recursive: true)
+  // ..createSync(recursive: true)
   ..writeAsBytesSync(fileBytes!);
 
-  print(file.path);
+  print('File ==M $file.path');
     // Once the file is saved, you can open it or perform any other necessary operations
  OpenFile.open(file.path);
  
@@ -151,7 +206,7 @@ var file= File(path.join("$directory/output_file_name.xlsx"))
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.white,
-        backgroundColor: Color.fromRGBO(27,9,61,1.000),
+        backgroundColor:const Color.fromRGBO(27,9,61,1.000),
         title: const Text("Generate Reports"),
       ),
       body: Container(
@@ -186,7 +241,7 @@ var file= File(path.join("$directory/output_file_name.xlsx"))
                                 _selectedStartDate == null
                                     ? 'Start Date'
                                     : formatter.format(_selectedStartDate!),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white
                                   ),                                  
                                     // formatNumber(_selectedDate! as num?, formatType: FormatType.scientific),
@@ -243,7 +298,7 @@ var file= File(path.join("$directory/output_file_name.xlsx"))
         //   keyboardType: TextInputType.datetime,
         // ),
        const SizedBox(height: 19,),           
-        ElevatedButton(onPressed: _generateExcel,
+        ElevatedButton(onPressed: createExcel,
         style: ButtonStyle(
           backgroundColor:MaterialStateProperty.all<Color>(Colors.grey.withOpacity(0.1)),), 
           child: const  Text("Generate",
