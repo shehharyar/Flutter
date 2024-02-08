@@ -106,7 +106,7 @@ class ShopHomeScreen extends StatelessWidget {
                           InkWell(
                             onTap:(){
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder: (ctx) => const GenerateReportsScreen() ));
+                                builder: (ctx) => GenerateReportsScreen(shopId: shopId,) ));
                             },
                             child: Container(
                               width: 150,

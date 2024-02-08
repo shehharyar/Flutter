@@ -1,19 +1,23 @@
 // import 'dart:html';
 import 'dart:io';
 
-import 'package:excel/excel.dart' as excel;
+// import 'package:excel/excel.dart' as excel;
+// import 'package:excel/excel.dart' as wb;
+
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterflow_ui/flutterflow_ui.dart';
 import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
-import 'package:path/path.dart' as path;
+// import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' as wb;
 final formatter = DateFormat.yMd();
 
 class GenerateReportsScreen extends StatefulWidget {
-  const GenerateReportsScreen({super.key});
-
+  const GenerateReportsScreen({super.key, required this.shopId});
+  final String shopId;
   @override
   State<GenerateReportsScreen> createState() => _GenerateReportsScreenState();
 }
@@ -50,156 +54,146 @@ DateTime? _selectedEndDate;
       _selectedEndDate = pickedDate;
     });
   }
- final _salesReef= FirebaseDatabase.instance.ref().child('sales');
-  // Future<void> createExcel() async {
-  //   final wb.Workbook workbook =wb.Workbook();
-  //   final wb.Worksheet sheet = workbook.worksheets[0];
-  //   sheet.getRangeByName('A1').setText('Hello World!');
-  //   final List<int> bytes = workbook.saveAsStream();
-  //   workbook.dispose();
 
-    
-  //     final String path = (await getApplicationSupportDirectory()).path; 
-  //     print('path ===>  ${path}');
-  //     final String fileName = '$path/Output.xlsx';
-  //     final File file = File(fileName);
-  //     await file.writeAsBytes(bytes);
-  //     // excel.Excel.createExcel().;
-  //     // excel
-          
-  //         OpenFile.open(fileName);
-    
-  // }
-//   Future<void> createExcel() async {
-// // Create a new Excel Document.
-// try{
-// final wb.Workbook workbook = wb.Workbook();
+Future<void> generateExcelSheet(DateTime startDate, DateTime endDate) async {
+  DatabaseReference _salesRef = FirebaseDatabase.instance.ref().child('sales');
+  List<Map<String, dynamic>> salesData = [];
 
-// // Accessing worksheet via index.
-// final wb.Worksheet sheet = workbook.worksheets[0];
+  try {
+    // Fetch sales data between specified dates
+    await _salesRef.once().then((snapshot) async {
 
-// // Set the text value.
-// sheet.getRangeByName('A1').setText('Hello World!');
+    if (snapshot.snapshot.value != null) {
+  print(snapshot.snapshot.value);     
+  print(snapshot.snapshot.value.runtimeType);     
+      Map<dynamic, dynamic> salesMap = snapshot.snapshot.value as Map;
+      print(salesMap);
+      print(salesMap.runtimeType);
+      salesMap.forEach((key, value){
+       
+      //  final beginDate = '${startDate.year}-${_addLeadingZero(startDate.month)}-${_addLeadingZero(startDate.day)}';
+       final String salesDate= value['timestamp'];
+       DateTime saleDate= DateTime.parse(salesDate);
 
-// // Save and dispose the document.
-// final List<int> bytes = workbook.saveSync();
-// workbook.dispose();
-
-// // Get external storage directory
-// final directory = await getExternalStorageDirectory();
-
-// // Get directory path
-// final path = directory!.path;
-
-// // Create an empty file to write Excel data
-// File file = File('$path/Output.xlsx');
-
-// // Write Excel data
-// await file.writeAsBytes(bytes, flush: true);
-
-// // Open the Excel document in mobile
-// OpenFile.open('$path/Output.xlsx');
-// print("file opened");
-// }
-// catch(error){
-//   print('Cannot open file  $error' );
-// }
-
-// }
-Future<void> createExcel() async {
-  // Fetch data from Firebase based on selected dates
-  if (_selectedStartDate != null && _selectedEndDate != null) {
-    String startDateString =
-        "${_selectedStartDate!.year}-${_addLeadingZero(_selectedStartDate!.month)}-${_addLeadingZero(_selectedStartDate!.day)}";
-    String endDateString =
-        "${_selectedEndDate!.year}-${_addLeadingZero(_selectedEndDate!.month)}-${_addLeadingZero(_selectedEndDate!.day)}";
-
-    // Create Excel workbook and sheet
-    final excelSheet = excel.Excel.createExcel();
-    final sheet = excelSheet['SalesData'];
-
-    // Add headers to the sheet
-    sheet.appendRow([excel.TextCellValue("Timestamp") , excel.TextCellValue('Product'), excel.TextCellValue('Quantity'), 
-    excel.TextCellValue('Price'), excel.TextCellValue('Profit')]);
-
-    // Fetch data from Firebase
-    await _salesReef.once().then((value) {
-      if (value != null && value.snapshot.value != null) {
-        Map<dynamic, dynamic>? salesData =
-            value.snapshot.value as Map<dynamic, dynamic>;
-        salesData!.forEach((key, value) {
-          String timestamp = value['timestamp'];
-
-          // Check if the timestamp is within the selected date range
-          if (timestamp.compareTo(startDateString) >= 0 &&
-              timestamp.compareTo(endDateString) <= 0) {
-            // Iterate through items and add them to the Excel sheet
-            for (var item in value['items']) {
-              sheet.appendRow([
-               excel.TextCellValue(timestamp.toString()),
-                excel.TextCellValue(item['title'].toString()),
-                excel.TextCellValue(item['quantity'].toString()),
-                excel.TextCellValue(item['price'].toString()),
-                excel.TextCellValue(item['profit'].toString())
-              ]);
-            }
+      //  print('begin Date:  ${beginDate}');
+       print(endDate);
+        print("Value from sales === $value");
+        print(value['items'][0]['price']);
+    for (var item in value['items']){
+      print('Item in for-in loop : $item');
+  print('Condition: ${saleDate.isAfter(startDate)}');
+   if (saleDate.isAfter(startDate) && saleDate.isBefore(endDate) || saleDate == endDate) {
+          if(item['shopId'] == widget.shopId){
+            print("Shop Matched");
+          salesData.add({
+            'title':item['title'],
+            'price':item['price'],
+            'quantity':item['quantity'],
+            'profit':item['profit'],
+            'Date':salesDate,
+          });
           }
-        });
-      }
-    });
+        }
+    }
+  print('salesData between $startDate & $endDate : $salesData');
 
-    // Save Excel file to device storage
-    // final excelPath = '/path/to/sales_report.xlsx';
-    // final file = File(excelPath);
-    // final file = File('${(await getTemporaryDirectory()).path}/sales.xlsx');
-
-    // await file.writeAsBytes(excel.save());
-var fileBytes = excelSheet.save();
-// var directory = await getApplicationDocumentsDirectory();
-Directory directory = await getApplicationDocumentsDirectory();
-if (!await directory.exists()) {
-  await directory.create(recursive: true);
-}
-var file= File(path.join("$directory/output_file_name.xlsx"))
-  // ..createSync(recursive: true)
-  ..writeAsBytesSync(fileBytes!);
-
-  print('File ==M $file.path');
-    // Once the file is saved, you can open it or perform any other necessary operations
- OpenFile.open(file.path);
- 
+      });
+      // salesMap.forEach((key, value) {
+      //   print('Value from For Each loop --- $value');
+      //   String timestamp = value['timestamp'];
+      //   DateTime saleDate = DateTime.parse(timestamp);
+        
+      //   // Check if saleDate is between startDate and endDate
+      //   if (saleDate.isAfter(startDate) && saleDate.isBefore(endDate)) {
+      //     if(value['shopId'] == widget.shopId){
+      //       print("Shop Matched");
+      //     salesData.add({
+      //       'title': value['title'],
+      //       'price': value['price'],
+      //       'quantity': value['quantity'],
+      //       'profit': value['profit'],
+      //       'timestamp': value['timestamp'],
+      //     });
+      //     }
+      //   }
+      // });
+    // print("Sales Data ==> $salesData");
+      // Generate and open Excel sheet
+    await createAndOpenExcel(salesData);
+      print("File Has Been created........");
+    } else {
+      print('No sales data available');
+    }
+    // print('Snapshot ---> ${snapshot.snapshot.value}');
+     });
+  } catch (e) {
+    print('Error fetching or processing sales data: $e');
   }
 }
 
+Future<void> createAndOpenExcel(
+  List<Map<String, dynamic>> salesData
+  ) async {
+    final wb.Workbook workbook = wb.Workbook();
+    final wb.Worksheet sheet= workbook.worksheets[0];
+    sheet.getRangeByName('A1').setText('Title');
+    sheet.getRangeByName('B1').setText('Price');
+    sheet.getRangeByName('C1').setText('Quantity');
+    sheet.getRangeByName('D1').setText("Profit");
+    sheet.getRangeByName('E1').setText('Timestamp');
 
+    for (int i = 0; i < salesData.length; i++) {
+      final rowData = salesData[i];
+      sheet.getRangeByName('A${i + 2}').setText(rowData['title'].toString());
+      sheet.getRangeByName('B${i + 2}').setText(rowData['price'].toString());
+      sheet.getRangeByName('C${i + 2}').setText(rowData['quantity'].toString());
+      sheet.getRangeByName('D${i + 2}').setText(rowData['profit'].toString());
+      sheet.getRangeByName('E${i + 2}').setText(rowData['Date'].toString());
+    }
 
-//  Future<void> _generateExcel() async {
-//     // Fetch data from Firebase based on selected dates
-//     if (_selectedStartDate != null && _selectedEndDate != null) {
-      
-//       String startDateString = "${_selectedStartDate!.year}-${_addLeadingZero(_selectedStartDate!.month)}-${_addLeadingZero(_selectedStartDate!.day)}";
-//       String endDateString = "${_selectedEndDate!.year}-${_addLeadingZero(_selectedEndDate!.month)}-${_addLeadingZero(_selectedEndDate!.day)}";
-      
-//       print(endDateString);
-//        await _salesReef.once().then((value) {
-//             if (value != null && value.snapshot.value != null) {
-//       Map<dynamic, dynamic>? salesData = value.snapshot.value as Map<dynamic, dynamic>;
-//     //  print("RUNS");
-//       salesData!.forEach((key, value) {
-//         String timestamp = value['timestamp'];
-//         // print(timestamp == yesterdayDate);
-//         // print(currentDate);
-//         // print(yesterdayDate);
-//         for(var item in value['items']){
-//           // print(item['profit']);
-//         if (timestamp == startDateString) {
-      
-//         }}
-//        });
-//      } });
+    // sheet.getRangeByName('A1').setText('Hello World!');
+    final List<int> bytes = workbook.saveAsStream();
+    workbook.dispose();
 
-//     }
-//   }
+  final String path = (await getApplicationSupportDirectory()).path;
+      final String fileName ='$path/Output.xlsx';
+      final File file = File(fileName);
+      await file.writeAsBytes(bytes, flush: true);
+      OpenFile.open(fileName);
+      print(salesData);
+  // try {
+  //   final wb.Workbook workbook = wb.Workbook();
+  //   final wb.Worksheet sheet= workbook.worksheets[0];
+  //   sheet.getRangeByName("A!").setText("text");
+  //   // Set headers
+    
+  //   // // sheet.cell(CellIndex.indexByString('B1')).value = 'Price';
+  //   // // sheet.cell(CellIndex.indexByString('C1')).value = 'Quantity';
+  //   // // sheet.cell(CellIndex.indexByString('D1')).value = 'Profit';
+  //   // // sheet.cell(CellIndex.indexByString('E1')).value = 'Timestamp';
+
+  //   // // Fill data into the Excel sheet
+
+  //   // Save workbook as byte stream
+  //   final List<int> bytes = workbook.saveAsStream();
+  //   workbook.dispose();
+
+  //   // Get the application directory path
+  //   final String path = (await getApplicationDocumentsDirectory()).path;
+  //   final String fileName = '$path/SalesData.xlsx';
+
+  //   // Write bytes to file
+  //   final File file = File(fileName);
+  //   await file.writeAsBytes(bytes);
+  //   print('Excel file saved at: $fileName');
+
+  //   // Open the file
+  // OpenFile.open(fileName);
+  // } catch (e) {
+  //   print('Error creating or opening file: $e');
+  // }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -222,6 +216,16 @@ var file= File(path.join("$directory/output_file_name.xlsx"))
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Container(
+                margin: const EdgeInsets.only(
+                  top: 30,
+                  bottom: 20,
+                  left: 20,
+                  right: 20,
+                ),
+                width: 200,
+                child: Image.asset('assets/images/sales.png'),
+              ),
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -298,7 +302,13 @@ var file= File(path.join("$directory/output_file_name.xlsx"))
         //   keyboardType: TextInputType.datetime,
         // ),
        const SizedBox(height: 19,),           
-        ElevatedButton(onPressed: createExcel,
+        ElevatedButton(onPressed:
+        // createAndOpenExcel
+        ()async{
+       await generateExcelSheet(_selectedStartDate!, _selectedEndDate!);
+
+        }
+        ,
         style: ButtonStyle(
           backgroundColor:MaterialStateProperty.all<Color>(Colors.grey.withOpacity(0.1)),), 
           child: const  Text("Generate",
@@ -315,6 +325,9 @@ var file= File(path.join("$directory/output_file_name.xlsx"))
       }
 
       String _addLeadingZero(int number) {
+        if(number > 9){
+          return number.toString();
+        }
   return number.toString().padLeft(2, '0');
 }
 
