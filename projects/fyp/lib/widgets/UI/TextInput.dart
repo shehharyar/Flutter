@@ -3,16 +3,20 @@
 import 'package:flutter/material.dart';
 
 class TextInput extends StatelessWidget {
- TextInput({super.key, required this.onSaved, this.validator, required this.label, this.icon, this.keyboardType});
+ TextInput({super.key, required this.onSaved, this.validator, required this.label, this.icon, this.keyboardType, 
+ this.obsecureText= false
+ });
   final void Function(String?)? onSaved;  
   String? Function(String?)? validator;
+  final bool obsecureText;
   final String label;
   IconData? icon;
   TextInputType? keyboardType;
 @override
   Widget build(BuildContext context) {
     return  TextFormField(
-                      onSaved: onSaved,         
+                      onSaved: onSaved,
+                      obscureText: obsecureText,         
                        validator: validator,
                       keyboardType: keyboardType ,
                       decoration: InputDecoration(hintText: label,
