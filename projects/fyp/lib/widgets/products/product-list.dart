@@ -1,6 +1,8 @@
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fyp/provider/cart.dart';
 import 'package:fyp/widgets/products/product-item.dart';
 
 // class ProductList extends StatefulWidget {
@@ -36,17 +38,51 @@ import 'package:fyp/widgets/products/product-item.dart';
 
 
 
-class ProductList extends StatefulWidget {
+class ProductList extends ConsumerStatefulWidget {
   const ProductList({super.key, required this.shopId });
   final String shopId;
   @override
-  State<ProductList> createState() => _ProductListState();
+  ConsumerState<ProductList> createState() => _ProductListState();
 }
 
-class _ProductListState extends State<ProductList> {
+class _ProductListState extends ConsumerState<ProductList> {
  DatabaseReference data= FirebaseDatabase.instance.ref();
+     void _confirmDelete(BuildContext context, String productId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirm Delete"),
+          content: const Text("Are you sure you want to delete this product?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                _deleteProduct(productId);
+                Navigator.of(context).pop();
+              },
+              child: const Text("Delete"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteProduct(String productId) {
+    DatabaseReference productRef = FirebaseDatabase.instance.ref('products').child(productId);
+    productRef.remove();
+  }
+  
+
   @override
   Widget build(BuildContext context) {
+    final Carts =ref.watch(cartProvider);
     print("Shop Id ==> " + widget.shopId);
     return StreamBuilder(stream: data.child('products').orderByChild('shopId').equalTo(widget.shopId).onValue, builder: (context, productSnapshots) {
         if( productSnapshots.connectionState == ConnectionState.waiting){
@@ -104,10 +140,12 @@ if (!productSnapshots.hasData || productSnapshots.data!.snapshot.value == null) 
     return ListView.builder(itemBuilder: (ctx, i) => 
     ProductItem(id: loadedProducts[i]['id'] as String? ?? '', 
     title:loadedProducts[i]['title']as String? ?? '', 
-    stock: loadedProducts[i]['stock'] as String? ?? "",
+    stock: loadedProducts[i]['stock'].toString(),
     cost: loadedProducts[i]['Cost']as String? ?? '', 
     others:loadedProducts[i]['Others'] as String? ?? "",
-    price: loadedProducts[i]['price']as String? ?? '', imageUrl: loadedProducts[i]['imageUrl']as String? ?? ''),
+    price: loadedProducts[i]['price']as String? ?? '', imageUrl: loadedProducts[i]['imageUrl']as String? ?? '',
+    onLongPress: () => _confirmDelete(context,loadedProducts[i]['id']),
+    ),
     
     itemCount: loadedProducts.length,
     );

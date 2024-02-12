@@ -46,14 +46,16 @@ class CartItemWidget extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton.outlined(onPressed: (){
-                    ref.read(cartProvider.notifier).updateQuantity(item!.id, item!.quantity.toInt() - 1 );  
+                  ref.read(cartProvider.notifier).decrementQuantity(item!.id);
+                    // ref.read(cartProvider.notifier).updateQuantity(item!.id, item!.quantity!.toInt() - 1 );  
                   }, icon: const Icon(Icons.remove)),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(item!.quantity.toString()),
+                    child: Text(item!.quantity!.toString()),
                   ),
                   IconButton.outlined(onPressed: (){
-                    ref.read(cartProvider.notifier).updateQuantity(item!.id, item!.quantity.toInt() +1);
+                    ref.read(cartProvider.notifier).incrementQuantity(item!.id);
+                    // ref.read(cartProvider.notifier).updateQuantity(item!.id, item!.quantity!.toInt() +1);
                   }, icon: const Icon(Icons.add)),
                 ],
               ),

@@ -63,9 +63,18 @@ class _BusinessRegistrationScreenState extends State<BusinessRegistrationScreen>
   Widget build(BuildContext context) {
   print('business=== $_selectedBusiness');
   return Scaffold(
-     backgroundColor: Colors.purple[700] ,
-      appBar: AppBar(backgroundColor: Colors.transparent),
-      body: Center(
+    //  backgroundColor:Color.fromRGBO(27,9,61,1.000) ,
+      // appBar: AppBar(backgroundColor: Colors.transparent),
+      body: Container(
+              width: 500,
+          height:double.infinity,
+           decoration: const  BoxDecoration(
+          gradient: LinearGradient(  
+            begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+            colors: [Color.fromRGBO(27,9,61,1.000),Color.fromRGBO(82,36,91,1.000),])
+        ),
+        child:Center(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -123,6 +132,8 @@ class _BusinessRegistrationScreenState extends State<BusinessRegistrationScreen>
           ),
         ),
       ),
+      ),
+      
     ); // clipBehavior: Clip.hardEd 
             
     

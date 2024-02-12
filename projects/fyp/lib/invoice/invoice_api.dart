@@ -591,8 +591,8 @@ class PdfInvoiceService {
         CustomRow(
           product.title,
           product.price.toStringAsFixed(2),
-          product.quantity.toStringAsFixed(2),
-          (product.price * product.quantity).toStringAsFixed(2),
+          product.quantity!.toStringAsFixed(2),
+          (product.price * product.quantity!).toStringAsFixed(2),
           (0.8 * product.price).toStringAsFixed(2),
         ),
       CustomRow(
@@ -708,7 +708,7 @@ class PdfInvoiceService {
   String getSubTotal(List<CartItem> products) {
     return products
         .fold(0.0,
-            (double prev, element) => prev + (element.quantity * element.price))
+            (double prev, element) => prev + (element.quantity! * element.price))
         .toStringAsFixed(2);
   }
 
@@ -717,7 +717,7 @@ class PdfInvoiceService {
         .fold(
           0.0,
           (double prev, next) =>
-              prev + ((next.price / 100 ) * next.quantity),
+              prev + ((next.price / 100 ) * next.quantity!),
         )
         .toStringAsFixed(2);
   }

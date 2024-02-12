@@ -103,7 +103,7 @@ Future<void> _addToSales(List<CartItem> cartItems) async {
         'title': cart.title,
         'price': cart.price,
         'quantity': cart.quantity,
-        'profit': (cart.price / 4) * cart.quantity, // Assuming profit calculation
+        'profit': (cart.price / 4) * cart.quantity!, // Assuming profit calculation
         'id': salesId,
         'shopId': shopId
       }).toList(),
@@ -270,10 +270,27 @@ Future<void> _addToSales(List<CartItem> cartItems) async {
         build: (pw.Context context) {
           // print(carts);
           return <pw.Widget>[
+           pw.Center(
+            child: pw.Text(
+              'Shop Name',
+              style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
+            ),
+          ),
+          pw.SizedBox(height: 20),
           
             // ignore: deprecated_member_use
             pw.Table.fromTextArray(
+              border: pw.TableBorder.all(),
+            headerDecoration: pw.BoxDecoration(color: PdfColors.grey300),
+            headerHeight: 25,
+            cellHeight: 25,
+            cellAlignments: {
+              0: pw.Alignment.centerLeft,
+              1: pw.Alignment.center,
+              2: pw.Alignment.center,
+            },
               data: <List<String>>[
+            
                 <String>['Item', 'Price', 'Quantity'],
                 ...carts.map((cart) => [cart.title, cart.price.toString(), cart.quantity.toString()]),
               ],
@@ -286,5 +303,6 @@ Future<void> _addToSales(List<CartItem> cartItems) async {
     await file.writeAsBytes(await pdf.save());
     OpenFile.open(file.path);
    
+   carts.clear();
   }
 }

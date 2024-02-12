@@ -10,9 +10,10 @@ class CreateShopScreen extends StatelessWidget {
             appBar: AppBar(
               backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
               title: Text(
-                "Business App",
+                "Swift Sales",
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary,
+                  
+                  color: Colors.orange,
                 ),
               ),
               actions: [
