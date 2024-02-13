@@ -237,26 +237,58 @@ Future<void> _addToSales(List<CartItem> cartItems) async {
 // }
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Your Carts"),
+        foregroundColor:Theme.of(context).colorScheme.onPrimary,
+      
+      backgroundColor: Color.fromRGBO(27,9,61,1.000),
+        title: const Text("Your Carts", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
       ),
-      body: carts.isNotEmpty
-          ? Column(
+      body: Container(
+            decoration: const  BoxDecoration(
+          gradient: LinearGradient(  
+            begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+            colors: [Color.fromRGBO(27,9,61,1.000),Color.fromRGBO(82,36,91,1.000),])
+        ),
+        child: carts.isNotEmpty
+            ? Column(
+                children: [
+                  Expanded(
+                    child: CartList(items: carts),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      _addToSales(carts);
+                      // _createPDF(carts);
+                      // carts.clear();
+                    },
+                    icon: const Icon(Icons.check_circle_outline_outlined),
+                    label: const Text("Proceed"),
+                  ),
+                ],
+              )
+            :  Center(child: 
+          Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  child: CartList(items: carts),
+                Padding(
+                  padding: const EdgeInsets.only(top: 30, bottom: 20),
+                  child: Image.asset(
+                    'assets/images/cart.png',
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    _addToSales(carts);
-                    // _createPDF(carts);
-                    // carts.clear();
-                  },
-                  icon: const Icon(Icons.check_circle_outline_outlined),
-                  label: const Text("Proceed"),
+              const Text(
+                  "Your carts are empty!",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Sans Serif',
+                    color: Color.fromARGB(255, 239, 154, 154),
+                  ),
                 ),
               ],
-            )
-          : const Center(child: Text('No items in cart')),
+            ),)
+      ),
     );
   }
 
@@ -272,7 +304,7 @@ Future<void> _addToSales(List<CartItem> cartItems) async {
           return <pw.Widget>[
            pw.Center(
             child: pw.Text(
-              'Shop Name',
+              'Easy Food',
               style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
             ),
           ),
@@ -295,6 +327,18 @@ Future<void> _addToSales(List<CartItem> cartItems) async {
                 ...carts.map((cart) => [cart.title, cart.price.toString(), cart.quantity.toString()]),
               ],
             ),
+            pw.SizedBox(height: 19),
+            pw.Row(
+              mainAxisAlignment: pw.MainAxisAlignment.end,
+              children:[
+               pw.Text(
+              'Total: ${
+                  "150"
+                // carts.map((cart) =>(cart.price  * double.parse(cart.quantity as String)) )
+              }',
+              style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
+            ), 
+              ] )
           ];
         },
       ),
