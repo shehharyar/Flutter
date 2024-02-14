@@ -85,6 +85,7 @@ flutter:
       - assets/images/products-fallback.png
       - assets/images/shops-fall.png
       - assets/images/cart.png
+      - assets/images/swift.png
       - assets/ads/baked.jpg
       - assets/ads/cupcakes.jpg
       - assets/ads/grocery.jpg
