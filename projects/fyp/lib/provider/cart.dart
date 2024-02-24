@@ -141,5 +141,6 @@ void updateQuantity(String itemId, int newQuantity) {
 }
 
 
-
+final productListProvider = StateProvider<List<dynamic>>((ref) => []);
+final productItemProvider = StateProvider.family.autoDispose<Map<String, dynamic>, String>((ref, productId) => {});
 final cartProvider = StateNotifierProvider<cartNotifier, List<CartItem>>((ref) => cartNotifier() );

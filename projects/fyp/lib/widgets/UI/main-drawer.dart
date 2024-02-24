@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key, required this.onSelectScreen});
@@ -72,7 +73,8 @@ class MainDrawer extends StatelessWidget {
                   ),
             ),
             onTap: () {
-              onSelectScreen('logout');
+              FirebaseAuth.instance.signOut();
+              // onSelectScreen('logout');
             },
           ),
         ],

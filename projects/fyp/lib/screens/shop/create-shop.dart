@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/screens/business/business-reg.dart';
 import 'package:fyp/widgets/shops/shopsList.dart';
@@ -22,11 +23,26 @@ class CreateShopScreen extends StatelessWidget {
                     Icons.add_business,
                     color: Colors.deepOrange,
                   ),
+                  
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (ctx) => const BusinessRegistrationScreen()),
                     );
                   },
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.exit_to_app_outlined,
+                    color: Colors.deepOrange,
+                  ),
+                  onPressed: (){
+                    FirebaseAuth.instance.signOut();
+                  },
+                  // onPressed: () {
+                  //   Navigator.of(context).push(
+                  //     MaterialPageRoute(builder: (ctx) => const BusinessRegistrationScreen()),
+                  //   );
+                  // },
                 )
               ],
             ),

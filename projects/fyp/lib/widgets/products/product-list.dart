@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fyp/provider/cart.dart';
+// import 'package:fyp/provider/cart.dart';
 import 'package:fyp/widgets/products/product-item.dart';
 
 // class ProductList extends StatefulWidget {
@@ -82,10 +83,10 @@ class _ProductListState extends ConsumerState<ProductList> {
 
   @override
   Widget build(BuildContext context) {
-    final Carts =ref.watch(cartProvider);
+    final Carts =ref.watch(cartProvider.notifier);
     print("Shop Id ==> " + widget.shopId);
     return StreamBuilder(stream: data.child('products').orderByChild('shopId').equalTo(widget.shopId).onValue, builder: (context, productSnapshots) {
-        if( productSnapshots.connectionState == ConnectionState.waiting){
+        if( productSnapshots.connectionState == ConnectionState.waiting ){
             return const Center(
               child: CircularProgressIndicator(
               ),

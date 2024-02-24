@@ -2,12 +2,17 @@
 // import 'package:firebase_database/firebase_database.dart';
 
 class Product {
-  String? id;
-  String title;
-  String cost;
-  String price;
-   String imageUrl;
+  final String? id;
+  final String title;
+  final String imageUrl;
+  final double price;
+  final int stock;
 
-  Product( this.id ,this.title, this.cost,this.price, this.imageUrl);
-
+  Product({
+    required this.id,
+    required this.title,
+    required this.imageUrl,
+    required this.price,
+    required this.stock,
+  });
 }

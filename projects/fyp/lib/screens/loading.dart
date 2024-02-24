@@ -5,26 +5,19 @@ class LoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.purple[700],
-      body: Column(
-        children: [
-          Container(
-              padding: const EdgeInsets.only(top: 120),
-              decoration: const BoxDecoration(
-              color: Color.fromARGB(197, 231, 165, 217) , 
-                borderRadius:  BorderRadius.only( 
-                  bottomLeft: Radius.circular(19),
-                  bottomRight: Radius.circular(19)
-                  )
-              ),
-              height: 300,
-          ),
-          const Center(
-            child: CircularProgressIndicator(color: Colors.amber,),
-          )
-        ],
-      ),
-    );
+    return  Container(
+              width: 500,
+          height:double.infinity,
+           decoration: const  BoxDecoration(
+          gradient: LinearGradient(  
+            begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+            colors: [Color.fromRGBO(27,9,61,1.000),Color.fromRGBO(82,36,91,1.000),])
+        ),
+        child: Center(
+        child: Image.asset('assets/images/swift.png',
+        fit: BoxFit.cover,
+        )
+        ));
   }
 }

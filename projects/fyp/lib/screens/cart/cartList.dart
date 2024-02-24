@@ -4,7 +4,7 @@ import 'package:fyp/model/cart.dart';
 import 'package:fyp/screens/cart/cartItem.dart';
 
 class CartList extends ConsumerWidget {
- const  CartList({super.key, required this.items});
+ const CartList({super.key, required this.items});
 
   final List<CartItem> items;
 

@@ -52,7 +52,7 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
       activePage = ProductsOverviewScreen(shopId: widget.id ,);
     }
     if (_selectedPageIndex == 2) {
-      activePage = const PaymentScreen();
+      activePage = PaymentScreen(shopId: widget.id,);
     }
 
     final carts =ref.watch(cartProvider);
