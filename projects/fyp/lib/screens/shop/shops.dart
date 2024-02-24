@@ -120,7 +120,7 @@ class _ShopScreenState extends ConsumerState<ShopScreen> {
             
             
       
-      drawer: MainDrawer(onSelectScreen: _setScreen,),
+      drawer: MainDrawer(onSelectScreen: _setScreen, title: widget.title),
       // floatingActionButton: FloatingActionButton.small(
       //   backgroundColor: Theme.of(context).colorScheme.background,
       //   onPressed: (){

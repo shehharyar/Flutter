@@ -1,13 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 class MainDrawer extends StatelessWidget {
-  const MainDrawer({super.key, required this.onSelectScreen});
-
+  const MainDrawer({super.key, required this.onSelectScreen, required this.title});
+final String title;
   final void Function(String identifier) onSelectScreen;
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Color.fromARGB(255, 55, 31, 117),
       child: Column(
         children: [
           DrawerHeader(
@@ -34,7 +34,7 @@ class MainDrawer extends StatelessWidget {
                 ),
                 const SizedBox(width: 18),
                 Text(
-                  'Cooking Up!',
+                  title,
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                       ),
@@ -46,12 +46,12 @@ class MainDrawer extends StatelessWidget {
             leading: Icon(
               Icons.restaurant,
               size: 26,
-              color: Theme.of(context).colorScheme.onBackground,
+              color: Colors.white,
             ),
             title: Text(
               'Shops',
               style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground,
+                    color: Colors.white,
                     fontSize: 24,
                   ),
             ),
@@ -59,24 +59,24 @@ class MainDrawer extends StatelessWidget {
               onSelectScreen('home');
             },
           ),
-          ListTile(
-            leading: Icon(
-              Icons.settings,
-              size: 26,
-              color: Theme.of(context).colorScheme.onBackground,
-            ),
-            title: Text(
-              'Logout',
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground,
-                    fontSize: 24,
-                  ),
-            ),
-            onTap: () {
-              FirebaseAuth.instance.signOut();
-              // onSelectScreen('logout');
-            },
-          ),
+          // ListTile(
+          //   leading: Icon(
+          //     Icons.settings,
+          //     size: 26,
+          //     color: Theme.of(context).colorScheme.onBackground,
+          //   ),
+          //   title: Text(
+          //     'Logout',
+          //     style: Theme.of(context).textTheme.titleSmall!.copyWith(
+          //           color: Theme.of(context).colorScheme.onBackground,
+          //           fontSize: 24,
+          //         ),
+          //   ),
+          //   onTap: () {
+          //     FirebaseAuth.instance.signOut();
+          //     // onSelectScreen('logout');
+          //   },
+          // ),
         ],
       ),
     );
